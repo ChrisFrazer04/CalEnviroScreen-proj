@@ -8,13 +8,10 @@ from scipy.stats import pearsonr
 
 current_dir = Path.cwd()
 
-##Loading Data
+##Loading Data 
 #CalEnviroScreen Result Data
 Cal30 = pd.read_csv(f"{current_dir}/data/calenviroscreen-3.0-results-june-2018-update.csv")
 Cal40 = pd.read_csv(f"{current_dir}/data/calenviroscreen40resultsdatadictionary_F_2021.csv")
-
-#CCI Data
-climatefund = pd.read_csv(f"{current_dir}/data/cci_2022myu_detaileddata.csv", dtype=str)
 
 #Census Tract Designations
 tract_designations = pd.read_csv(f"{current_dir}/data/ab1550censustracts_ces3_2021 - All Census Tracts.csv")
@@ -31,42 +28,9 @@ ses_vars = ['Education','Linguistic Isolation','Poverty','Unemployment','Housing
 pop_vars = ["Asthma", "Low Birth Weight", "Cardiovascular Disease"]
 
 all_vars = env_exp_vars + env_eff_vars + pop_vars + ses_vars
-print(all_vars)
 
 #DAC Calculations
 numTracts = 7932
-
-#Climate Investment Fund Categories
-community_dev_vars = ["Urban Greening Program",
-                      "Low Carbon Economy Workforce",
-                      "Training and Workforce Development Program",
-                      "Urban and Community Forestry Program",
-                      "Affordable Housing and Sustainable Communities",
-                      "Low-Income Weatherization Program",
-                      "Transformative Climate Communities"]
-air_pollution_vars = ["Community Air Grants",
-                      "Commnunity Air Grants",
-                      "Community Air Protection Funds",
-                      "Woodsmoke Reduction Program",
-                      "Low Carbon Transportation"]
-transportation_vars = ["Technical Assistance",
-                        "Transit and Intercity Rail Capital Program",
-                        "Low Carbon Transit Operations Program"]
-agriculture_vars = ["Renewable Energy for Agriculture Program",
-                     "Funding Agricultural Replacement Measures for Emission Reductions",
-                     "Food Production Investment Program",
-                     "Low Carbon Fuels Production",
-                     "Climate Smart Agriculture"]
-adaptation_infrastructure_vars = ["Coastal Resilience Planning",
-                                  "Climate Ready Program",
-                                  "Forest Carbon Plan Implementation",
-                                  "Climate Adaptation and Resiliency Program",
-                                  "Fire Prevention Program",
-                                  "Wetlands and Watershed Program",
-                                  "Forest Health Program"]
-utilities_vars = ["Safe and Affordable Funding for Equity and Resilience (Drinking Water)",
-                   "Water-Energy Efficiency",
-                   "Waste Diversion Program"]
 
 #CDC Health Outcomes
 cdc_measures = {'CDC_Cancer': 'Cancer (excluding skin cancer) among adults aged >=18 years',
@@ -130,7 +94,7 @@ print('The percentage of tracts that change designation from switching to averag
       cf.get_tract_changes(new_score_df, avg_score_df)[3])
 
 #Saving cleaned data file as CSV
-ces_df2.to_csv(f'{current_dir}/cleaned_data/cleaned_ces_cdc.csv')
+ces_df2.to_csv(f'{current_dir}/cleaned_data/cleaned_ces_cdc.csv', index=False)
 
 #Saving default score dataframe as CSV
-new_score_df.to_csv(f'{current_dir}/cleaned_data/default_score.csv')
+new_score_df.to_csv(f'{current_dir}/cleaned_data/default_score.csv', index=False)

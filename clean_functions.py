@@ -5,6 +5,10 @@ from sklearn.preprocessing import scale, MinMaxScaler
 from scipy.stats import pearsonr
 import folium
 import json
+from ipyleaflet import Map, GeoJSON, WidgetControl
+from ipywidgets.embed import embed_minimal_html
+import ipywidgets as widgets
+
 
 
 #CalEnviroScreen variable names
@@ -112,7 +116,7 @@ def calculate_dac_score(data, env_exp_vars_new=env_exp_vars, env_eff_vars_new=en
     score_df['Percentile'] = score_df['Score'].rank(pct=True)*100
     
     def designate(x):
-        if x > 75:
+        if x >= 75: #Changing this to > instead of >= makes the standardized % change equal to the paper
             return 1 
         else:
             return 0
@@ -149,10 +153,8 @@ def process_funding_with_tracts(tracts_only, tol=10**-3):
     tracts_only = tracts_only.loc[tracts_only['Total Program GGRFFunding'] > 0]
     return
 
-def make_map(geojson_data, data):
-    """Creates a folium choropleth map. 
-    Need to figure out what to return in order to display in shiny/online
-    as well as """
+def make_map_choropleth(geojson_data, data):
+    """Creates a folium choropleth map."""
     m = folium.Map(location=[37.77,-122.41], zoom_start=6)
 
     folium.Choropleth(
@@ -166,3 +168,53 @@ def make_map(geojson_data, data):
         legend_name='DAC_Designated'
     ).add_to(m)
     return m
+
+def make_map(geojson_data):
+    #Colors for each DAC category
+    colors = {
+        'Yes': ['#2EEC57', 0.7],
+        'No': ['#EC2E42', 0.7],
+        'Missing': ['#C0C0C0', 0.5]
+    }
+
+    # Function to style the GeoJSON layer
+    def style_function(feature):
+        return {
+            'fillColor': colors[feature['DAC']][0],  # Fill color (hex color code)
+            'color': 'black',        # Border color
+            'weight': 0.1,           # Border width
+            'fillOpacity': colors[feature['DAC']][1]         # Fill opacity
+        }
+
+
+    # Create a map
+    m = Map(center=[37.77, -122.41], zoom=6, scroll_wheel_zoom=True)
+
+    # Create a GeoJSON layer
+    geo_json_layer = GeoJSON(
+        data=geojson_data,
+        style_callback=style_function,
+        hover_style={'fillColor': 'yellow', 'fillOpacity': 0.2},
+        name='DAC Classification'
+    )
+
+    # Add the GeoJSON layer to the map
+    m.add_layer(geo_json_layer)
+
+    # Add a widget control for displaying the map
+    widget_control = WidgetControl(widget=widgets.Output(), position='topright')
+    m.add_control(widget_control)
+
+    return m
+
+
+
+
+def get_funding_reallocation_22(funding_df, selected_tracts):
+    funding_df = funding_df.loc[funding_df['Census Tract'].isin(selected_tracts)]
+    return sum(funding_df['DAC3Amount'])
+
+
+def get_funding_reallocation_24(funding_df, selected_tracts):
+    funding_df = funding_df.loc[funding_df['Census Tract'].isin(selected_tracts)]
+    return sum(funding_df['DAC1550Amount'])
