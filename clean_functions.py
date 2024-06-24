@@ -35,7 +35,7 @@ def get_tract_changes(old_df, new_df):
 
 def calculate_dac_score(data, env_exp_vars_new=env_exp_vars, env_eff_vars_new=env_eff_vars, 
                         pop_vars_new=pop_vars, ses_vars_new=ses_vars,
-                        omit_var=None, pop_weights_new=None, suffix=' Pctl',avg=None):
+                        omit_var=None, pop_weights_new=None, suffix=' Pctl',avg=None, tract=None):
     """Calculates the DAC score of the input dataframe"""
 
     #Remove NA values    
@@ -58,7 +58,12 @@ def calculate_dac_score(data, env_exp_vars_new=env_exp_vars, env_eff_vars_new=en
                 ses_vars_new.remove(var)
             else:
                 pop_vars_new.remove(var)
-    
+
+    if tract:
+        env_exp_components = data[env_exp_vars_new]
+        env_eff_components = data[env_eff_vars_new]
+        ses_factor_components = data[ses_vars_new]
+
     #Average over components
     env_exposure = data[env_exp_vars_new].apply(np.mean, axis=1)
     env_effect = data[env_eff_vars_new].apply(np.mean, axis=1)
@@ -77,6 +82,7 @@ def calculate_dac_score(data, env_exp_vars_new=env_exp_vars, env_eff_vars_new=en
     if not isinstance(pop_vars_new[0], list):
         sens_pop = data[[var + suffix for var in pop_vars_new]].apply(
             lambda row: weighted_mean(row, weights=pop_weights_new), axis=1)
+    #This condition likely won't happen
     else:
         sens_pop_matrix = np.zeros((len(data), len(pop_vars_new)))
         for i in range(len(pop_vars_new)):
@@ -125,33 +131,7 @@ def calculate_dac_score(data, env_exp_vars_new=env_exp_vars, env_eff_vars_new=en
     return score_df
 
 
-
-
-def allocate_resources(money, pot):
-    # Sort individuals by their total amount of money, then by their initial amount of money
-    allocation_order = 2 #placeholder
-    
-    # Calculate amount of money to next highest value
-    money_diff = money[allocation_order][1:] - money[allocation_order][:-1]
-    
-    # Remove excess money, starting with individuals who have the largest total amount of money
-    remaining_pot = pot
-    allocated_money = np.zeros(len(money))
-
-    for i in range(len(money)):
-        if i < len(money) - 1:
-            # Calculate the maximum amount of money that can be allocated to the individual without violating the constraint
-            max_additional_allocation = min(remaining_pot, (i+1)*money_diff[i])
-        if max_additional_allocation > 0:
-            allocated_money[:i+1] += max_additional_allocation / (i+1)
-            remaining_pot -= max_additional_allocation
-            
-    return allocated_money
-   # Calculate amount of money to next highest value
-
-def process_funding_with_tracts(tracts_only, tol=10**-3):
-    tracts_only = tracts_only.loc[tracts_only['Total Program GGRFFunding'] > 0]
-    return
+##Mapping Functions
 
 def make_map_choropleth(geojson_data, data):
     """Creates a folium choropleth map."""
@@ -208,7 +188,7 @@ def make_map(geojson_data):
     return m
 
 
-
+##Funding Functions
 
 def get_funding_reallocation_22(funding_df, selected_tracts):
     funding_df = funding_df.loc[funding_df['Census Tract'].isin(selected_tracts)]
@@ -218,3 +198,30 @@ def get_funding_reallocation_22(funding_df, selected_tracts):
 def get_funding_reallocation_24(funding_df, selected_tracts):
     funding_df = funding_df.loc[funding_df['Census Tract'].isin(selected_tracts)]
     return sum(funding_df['DAC1550Amount'])
+
+def allocate_resources(money, pot):
+    # Sort individuals by their total amount of money, then by their initial amount of money
+    allocation_order = 2 #placeholder
+    
+    # Calculate amount of money to next highest value
+    money_diff = money[allocation_order][1:] - money[allocation_order][:-1]
+    
+    # Remove excess money, starting with individuals who have the largest total amount of money
+    remaining_pot = pot
+    allocated_money = np.zeros(len(money))
+
+    for i in range(len(money)):
+        if i < len(money) - 1:
+            # Calculate the maximum amount of money that can be allocated to the individual without violating the constraint
+            max_additional_allocation = min(remaining_pot, (i+1)*money_diff[i])
+        if max_additional_allocation > 0:
+            allocated_money[:i+1] += max_additional_allocation / (i+1)
+            remaining_pot -= max_additional_allocation
+            
+    return allocated_money
+   # Calculate amount of money to next highest value
+
+
+def process_funding_with_tracts(tracts_only, tol=10**-3):
+    tracts_only = tracts_only.loc[tracts_only['Total Program GGRFFunding'] > 0]
+    return

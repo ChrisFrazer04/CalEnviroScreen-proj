@@ -38,14 +38,17 @@ styles = """
         display: block;
     }
 
-    .plot {
-        border: 2px solid black;
-        padding-bottom: 10px;
-        display: inline-block;
-    }
+
     img {
-        width: 100%;
-        height:100%;
+        width: 45%;
+        height: auto;
+        border: 2px solid black;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .plot-header {
+        margin: 0 auto
     }
 """
 
@@ -79,7 +82,7 @@ app_ui = ui.page_fluid(
                         "Cleanup Sites": "Cleanup Sites",
                         "Groundwater Threats": "Groundwater Threats",
                         "Haz. Waste": "Hazardous Waste",
-                        "Imp. Water Bodies": "Imp. Water Bodies(??)",
+                        "Imp. Water Bodies": "Imp. Water Bodies",
                         "Solid Waste": "Solid Waste",
                     },
                     selected=default_env_eff_vars
@@ -121,7 +124,7 @@ app_ui = ui.page_fluid(
                     {
                         "CDC_Cancer": "Cancer among Adults",
                         "CDC_COPD": "Chronic Obstructive Pulmonary Diseases (COPD)",
-                        "CDC_Smoking": "Smoking (percentage, maybe)",
+                        "CDC_Smoking": "Smoking",
                         "CDC_Asthma": "Asthma among adults",
                         "CDC_CKD": "Chronic Kidney Disease",
                         "CDC_CVD": "Coronary Heart Disease"
@@ -165,19 +168,13 @@ app_ui = ui.page_fluid(
             ),
         ),
         ui.panel_main(
-        ui.h2("Generated Plots"),
         ui.tags.div(
+            ui.h2("Generated Plots"),
+            class_='plot-header'
+        ),
             ui.output_image('fund_bar'),
-            class_='plot'
-        ),
-        ui.tags.div(
             ui.output_image('changes_bar'),
-            class_='plot'
-        ),
-        ui.tags.div(
             ui.output_image('changes_scatter'),
-            class_='plot'
-        ),
     )
     ),
 )
