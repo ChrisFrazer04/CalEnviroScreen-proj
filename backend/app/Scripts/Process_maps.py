@@ -4,9 +4,12 @@ import folium
 import json
 from pathlib import Path
 from ipyleaflet import Map, Choropleth, GeoJSON, WidgetControl
+import geopandas as gpd
+from shapely.geometry import Polygon
+from pyproj import CRS
 
 
-current_dir = Path.cwd()
+current_dir = Path(__file__).parent.parent
 
 #Loading data
 geojson_path = f'{current_dir}/data/tract_boundaries.json'
@@ -63,12 +66,41 @@ for tract in geojson_data['features']:
             count +=1
     tract['properties'] = prop
 
+#Creating a geo dataframe with census tract areas
+polygons = []
+tract_ids = []
+for tract in geojson_data['features']:
+    try:
+        polygon = Polygon(tract['geometry']['coordinates'][0])
+        id = tract['id']
+    except:
+        polygon = 'None'
+        id = 'None'
+    polygons.append(polygon)
+    tract_ids.append(id)
+
+polygons_clean = [x for x in polygons if x != 'None']
+ids_clean = [x for x in tract_ids if x != 'None']
+gdf = gpd.GeoDataFrame(geometry=polygons_clean, crs=CRS.from_epsg(4326))
+gdf['GEOID'] = ids_clean
+#Converting to a Califoria CRS
+gdf = gdf.to_crs(CRS.from_epsg(3310))
+gdf['area'] = gdf.area
+gdf['area'] = gdf['area'].apply(lambda x: round(x, 2))
+
+def remove_zero(num):
+    return int(num[1:])
+
+gdf['GEOID'] = gdf['GEOID'].apply(remove_zero)
+dac_data_complete['GEOID'] = dac_data_complete['GEOID'].apply(remove_zero)
+
+#Merging area dataframe with classificaion dataframe
+geo_merged = dac_data_complete.merge(gdf, on='GEOID', how='outer').drop(columns=['geometry'])
+
 #Saving geojson file
 fp = f'{current_dir}/cleaned_data/tract_boundaries.json'
 with open(fp, 'w') as file:
     json.dump(geojson_data, file)
 
 #Saving altered dac data file
-dac_data_complete.to_csv(f"{current_dir}/cleaned_data/geo_df.csv", index=False)
-
-#Creating base DAC map
+geo_merged.to_csv(f"{current_dir}/cleaned_data/geo_df.csv", index=False)
