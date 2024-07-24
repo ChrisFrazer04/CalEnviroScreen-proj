@@ -6,7 +6,7 @@ from sklearn.metrics import r2_score
 from sklearn.preprocessing import scale, MinMaxScaler
 from scipy.stats import pearsonr
 
-current_dir = Path.cwd()
+current_dir = Path(__file__).parent
 parent_dir = current_dir.parent
 
 ##Loading Data 
@@ -83,6 +83,23 @@ ces_df2 = ces_df.copy()
 for var in all_vars:
     ces_df2[var + ' Scaled'] = scale(ces_df[var])
 
+#Getting 5 most important indicators for each tract
+pctl_cols = [x for x in ces_df2.columns if x.split()[-1] == 'Pctl' and x.split('_')[0] != 'CDC' and x.split()[0] != 'Pop.']
+pctl_cols += ["Census Tract"]
+ces_df2[pctl_cols]
+def get_top5(row, cols):
+    top5 = []
+    row = row[:-1]
+    row = list(row)
+    for n in np.arange(5):
+        maximum = max(row)
+        max_ind = row.index(maximum)
+        col = cols[max_ind]
+        row[max_ind] = 0
+        top5.append(col)
+    return top5
+
+ces_df2['top5'] = ces_df2[pctl_cols].apply(lambda row: get_top5(row, pctl_cols), axis=1)
 #Calculating DAC scores for new tables
 new_score_df = cf.calculate_dac_score(ces_df2)
 scaled_score_df = cf.calculate_dac_score(ces_df2, suffix=' Scaled')

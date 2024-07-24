@@ -32,14 +32,17 @@ def get_tract_changes(old_df, new_df):
     changed_counties = list(set(old_df.loc[old_df['Census Tract'].isin(list(total_changes))]['County']))
     return (removed_tracts, added_tracts, total_changes, percent_change, len(total_changes), changed_counties)
 
-
 def calculate_dac_score(data, env_exp_vars_new=env_exp_vars, env_eff_vars_new=env_eff_vars, 
                         pop_vars_new=pop_vars, ses_vars_new=ses_vars,
-                        omit_var=None, pop_weights_new=None, suffix=' Pctl',avg=None, tract=None):
+                        omit_var=None, pop_weights_new=None, suffix=' Pctl',avg=None, tract=None,
+                        env_eff_weight=0.5, env_exp_weight=1, ses_weight=1, pop_weight=1, adversarial=False):
     """Calculates the DAC score of the input dataframe"""
-
-    #Remove NA values    
-    data = data.dropna(subset='CES 4.0 Score')
+    if tract:
+        #Filter by tract
+        data = data.loc[data['Census Tract'] == tract]
+    else:
+        #Remove NA values
+        data = data.dropna(subset='CES 4.0 Score')
         
     #Applying suffix
     env_exp_vars_new = [x + suffix for x in env_exp_vars_new]
@@ -59,11 +62,6 @@ def calculate_dac_score(data, env_exp_vars_new=env_exp_vars, env_eff_vars_new=en
             else:
                 pop_vars_new.remove(var)
 
-    if tract:
-        env_exp_components = data[env_exp_vars_new]
-        env_eff_components = data[env_eff_vars_new]
-        ses_factor_components = data[ses_vars_new]
-
     #Average over components
     env_exposure = data[env_exp_vars_new].apply(np.mean, axis=1)
     env_effect = data[env_eff_vars_new].apply(np.mean, axis=1)
@@ -74,7 +72,6 @@ def calculate_dac_score(data, env_exp_vars_new=env_exp_vars, env_eff_vars_new=en
         return np.average(row[non_na], weights=weights[non_na])
         
     if pop_weights_new is None:
-        print(pop_vars_new)
         if isinstance(pop_vars_new[0], list):
             pop_weights_new = [np.ones(len(group)) / len(group) for group in pop_vars_new]
         else:
@@ -97,11 +94,17 @@ def calculate_dac_score(data, env_exp_vars_new=env_exp_vars, env_eff_vars_new=en
         'env_exposure': env_exposure,
         'env_effect': env_effect,
         'sens_pop': sens_pop,
-        'ses_factors': ses_factors
+        'ses_factors': ses_factors,
     })
+
+    if adversarial:
+        score_df['Party'] = data['Party']
+        score_df['Population Density'] = data['Population Density']
+        score_df['Density Rank'] = score_df['Population Density'].rank(pct=True)*100
     
-    score_df['Pollution Burden'] = score_df[['env_exposure', 'env_effect']].apply(lambda row: np.average(row, weights=[1, 0.5]), axis=1)
-    score_df['Pop Char'] = score_df[['sens_pop', 'ses_factors']].apply(np.mean, axis=1)
+    score_df['Pollution Burden'] = score_df[['env_exposure', 'env_effect']].apply(lambda row: np.average(row, weights=[env_exp_weight, 
+                                                                                                                       env_eff_weight]), axis=1)
+    score_df['Pop Char'] = score_df[['sens_pop', 'ses_factors']].apply(lambda row: np.average(row, weights=[ses_weight, pop_weight]), axis=1)
     
     max_pollution_burden = max(score_df['Pollution Burden'])
     max_pop_char = max(score_df['Pop Char'])
@@ -130,7 +133,6 @@ def calculate_dac_score(data, env_exp_vars_new=env_exp_vars, env_eff_vars_new=en
             
     score_df['DAC'] = score_df['Percentile'].apply(designate)
     return score_df
-
 
 ##Mapping Functions
 
