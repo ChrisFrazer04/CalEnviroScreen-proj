@@ -1,3 +1,4 @@
+/* Page-wide setup */
 * {
   padding: 0;
   border: 0;
@@ -13,15 +14,17 @@
   width: 100%
 }
 
+/* Header Elements*/
 .header {
   position: sticky;
   top: 0;
   right: 0;
   width: 100%;
-  height: 10vh;
-  border: 2px solid red;
+  height: 7vh;
+  border: 2px solid black;
   padding: 0.5vh 1vw;
-  background-color: #7AC839 
+  background-color: #003366;  
+  color: #FFFFFF;
 }
 
 .header-text {
@@ -32,16 +35,18 @@
 .main {
   display:flex;
   flex-direction: row;
-  background-color: #fbfbfb;
 }
 
+/*!! Sidebar Elements !!*/
 .sidebar{
   border-right: 2px solid  rgba(0, 0, 0, 0.5);
-  height: 90vh;
-  width: 25%;
+  height: 93vh;
+  width: 20%;
   padding: 10px;
   overflow-y: auto;
-  
+  background-color: #004488;  
+  color: #FFFFFF;
+  padding-top: 1%;
 }
 
 h3 {
@@ -53,7 +58,6 @@ h3 {
   display: flex;
   flex-direction: column;
   padding: 0;
-  margin-bottom: 20px;
 }
 
 .radio-group{
@@ -61,19 +65,12 @@ h3 {
   flex-direction: column;
 }
 
-.content{
-  width: 75vw;
-  height:90vh;
-  overflow-y: auto;
-}
-
-.submit{
-  margin: auto 0;
-  width: 70%;
-  height: 3%;
-  border: 1px solid gray;
-  padding: 5px;
-
+hr {
+  color: white;
+  background-color: white;
+  width: 80%;
+  margin: 10px 0;
+  padding: 1.5px 0;
 }
 
 .submit-div {
@@ -82,10 +79,163 @@ h3 {
   display: flex;
   justify-content: center;
 }
+.submit {
+  margin: auto 0;
+  width: 70%;
+  height: 3%;
+  border: 1px solid gray;
+  padding: 5px;
+  margin-top: 10px;
+}
+
+.submit:hover{
+  background-color: #8682A0;
+}
+
+/* !! Sidebar End !! */
+
+/* !! Main Page Content !! */
+.content{
+  width: 80vw;
+  height:93vh;
+  overflow-y: auto;
+  background-color: #F5F5F5;
+  color: #333333;
+  padding-top: 1%;
+}
+
 
 img {
   padding: 2%;
   margin-bottom: 4%;
 
+}
+
+/* Find your Tract Elements */
+
+.search-area{
+  width: 70%;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.dropdown {
+  width: 30%;
+  height: 7%;
+  margin: 5px;
+}
+
+.landing-map {
+  width: 90%;
+  height: 50%;
+  margin: 0 auto;
+  border: solid black 2px;
+  margin-bottom: 100px;
+}
+
+.county-map-div {
+  width: 80%;
+  height: 50%;
+  margin: 0 auto;
+  border: solid black 2px;
+  margin-bottom: 4%;
+}
+
+.county-map {
+  width: 100%;
+  height: 50%;
+}
+
+/*Profile Elements */
+.profile {
+  width: 90%;
+  height: 50%;
+  border: solid red 2px;
+  margin: 0 auto;
+  margin-bottom: 10px;
+
+}
+
+.score-equation {
+  height: 50%;
+  width: 100%;
+  border: solid blue 2px;
+}
+
+.dual-panel {
+  height: 50%;
+  width: 100%;
+  border: solid green 2px;
+  display: flex;
+  flex-direction: row;
+}
+
+.pie-chart {
+  height: 100%;
+  width: 50%;
+  border: solid purple 2px;
+}
+
+.radial-charts {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.radial-chart {
+  height:100%;
+  width: 20%;
+  border: solid green 1px;
+}
+
+.top-variables {
+  height: 100%;
+  width: 50%;
+  border: solid purple 2px;
+}
+
+/* Slider Elements */
+
+.environmental-sliders, .population-sliders {
+  display: flex;
+  flex-direction: row;
+  margin: 0 auto;
+  width: 90%
+}
+
+.slider-div {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.slider {
+  width: 30%;
+  margin-bottom: 5px;
+}
+
+.slider-submit-buttons {
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  
+}
+
+.slider-submit{
+  margin: auto 0;
+  width: 30%;
+  height: 3%;
+  border: 1px solid gray;
+  padding: 5px;
+  margin-top: 10px;
+}
+
+.slider-submit:hover{
+  background-color: #8682A0;
 }
 
