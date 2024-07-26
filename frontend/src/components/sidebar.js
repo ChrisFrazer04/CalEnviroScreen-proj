@@ -124,7 +124,7 @@ const Sidebar = ({ onVariableSubmit, triggerMapUpdate, weights, sliders, trigger
 
     return (
       <div className='submit-div'>
-        <button className='submit' type='submit' onClick={handleClick}>Calculate Me</button>
+        <button className='submit' type='submit' onClick={handleClick}>Calculate</button>
       </div>
     );
   };
@@ -150,19 +150,19 @@ const Sidebar = ({ onVariableSubmit, triggerMapUpdate, weights, sliders, trigger
     <div className='checkbox-group'>
       <h3 class='checkbox-header'>Environmental Exposure Factors</h3>
       <label htmlFor="cb1" class="checkbox-label">
-      <input type='checkbox'className='env_exp' id='cb1' checked={ozone} value='Ozone' onClick={() => changeOz(toggleButton(ozone))}/> Ozone</label>
+      <input type='checkbox'className='env_exp' id='cb1' checked={ozone} value='Ozone' onClick={() => changeOz(toggleButton(ozone))}/> Ozone Concentration</label>
       <label htmlFor="cb2" class="checkbox-label">
-      <input type='checkbox'className='env_exp' id='cb2' checked={pm25} value='PM2.5' onClick={() => changePM(toggleButton(pm25))}/> Pm 2.5</label>
+      <input type='checkbox'className='env_exp' id='cb2' checked={pm25} value='PM2.5' onClick={() => changePM(toggleButton(pm25))}/> Pm 2.5 Concentration</label>
       <label htmlFor="cb3" class="checkbox-label">
-      <input type='checkbox'className='env_exp' id='cb3' checked={dieselP} value='Diesel PM' onClick={() => changeDies(toggleButton(dieselP))}/> Diesel PM</label>
+      <input type='checkbox'className='env_exp' id='cb3' checked={dieselP} value='Diesel PM' onClick={() => changeDies(toggleButton(dieselP))}/> Diesel PM Emissions</label>
       <label htmlFor="cb4" class="checkbox-label">
-      <input type='checkbox'className='env_exp' id='cb4' checked={drinkingWater} value='Drinking Water' onClick={() => changeDrink(toggleButton(drinkingWater))}/> Drinking Water Quality</label>
+      <input type='checkbox'className='env_exp' id='cb4' checked={drinkingWater} value='Drinking Water' onClick={() => changeDrink(toggleButton(drinkingWater))}/> Drinking Water Contaminants</label>
       <label htmlFor="cb5" class="checkbox-label">
-      <input type='checkbox'className='env_exp' id='cb5' checked={lead} value='Lead' onClick={() => changeLead(toggleButton(lead))}/> Lead</label>
+      <input type='checkbox'className='env_exp' id='cb5' checked={lead} value='Lead' onClick={() => changeLead(toggleButton(lead))}/> Children's Lead Risk</label>
       <label htmlFor="cb6" class="checkbox-label">
       <input type='checkbox'className='env_exp' id='cb6' checked={pesticides} value='Pesticides' onClick={() => changePest(toggleButton(pesticides))}/> Pesticides</label>
       <label htmlFor="cb7" class="checkbox-label">
-      <input type='checkbox'className='env_exp' id='cb7' checked={toxRelease} value='Tox. Release' onClick={() => changeTox(toggleButton(toxRelease))}/> Toxic Release</label>
+      <input type='checkbox'className='env_exp' id='cb7' checked={toxRelease} value='Tox. Release' onClick={() => changeTox(toggleButton(toxRelease))}/> Toxic Releases from Facilities</label>
       <label htmlFor="cb8" class="checkbox-label">
       <input type='checkbox'className='env_exp' id='cb8' checked={traffic} value='Traffic' onClick={() => changeTraffic(toggleButton(traffic))}/> Traffic</label>
     </div>
@@ -176,15 +176,15 @@ const Sidebar = ({ onVariableSubmit, triggerMapUpdate, weights, sliders, trigger
       <label htmlFor="cb11" class="checkbox-label">
       <input type='checkbox'className='env_eff' id='cb11' checked={hazWaste} value='Haz. Waste' onClick={() => changeHaz(toggleButton(hazWaste))}/> Hazardous Waste</label>
       <label htmlFor="cb12" class="checkbox-label">
-      <input type='checkbox'className='env_eff' id='cb12' checked={impWaterBodies} value='Imp. Water Bodies' onClick={() => changeImp(toggleButton(impWaterBodies))}/> Imp Water Bodies</label>
+      <input type='checkbox'className='env_eff' id='cb12' checked={impWaterBodies} value='Imp. Water Bodies' onClick={() => changeImp(toggleButton(impWaterBodies))}/> Impaired Water Bodies</label>
       <label htmlFor="cb13" class="checkbox-label">
-      <input type='checkbox'className='env_eff' id='cb13' checked={solidWaste} value='Solid Waste' onClick={() => changeSol(toggleButton(solidWaste))}/> Solid Waste</label>
+      <input type='checkbox'className='env_eff' id='cb13' checked={solidWaste} value='Solid Waste' onClick={() => changeSol(toggleButton(solidWaste))}/> Solid Waste Sites and Facilities</label>
     </div>
     <hr></hr>
     <div className='checkbox-group'>
       <h3 class='checkbox-header'>Socieoeonomic Factors</h3>
       <label htmlFor="cb14" class="checkbox-label">
-      <input type='checkbox'className='ses_vars' id='cb14' checked={education} value='Education' onClick={() => chagneEdu(toggleButton(education))}/> Education</label>
+      <input type='checkbox'className='ses_vars' id='cb14' checked={education} value='Education' onClick={() => chagneEdu(toggleButton(education))}/> Educational Attainment</label>
       <label htmlFor="cb15" class="checkbox-label">
       <input type='checkbox'className='ses_vars' id='cb15' checked={linguisticIsolation} value='Linguistic Isolation' onClick={() => changeLing(toggleButton(linguisticIsolation))}/> Linguistic Isolation</label>
       <label htmlFor="cb16" class="checkbox-label">
@@ -192,17 +192,17 @@ const Sidebar = ({ onVariableSubmit, triggerMapUpdate, weights, sliders, trigger
       <label htmlFor="cb17" class="checkbox-label">
       <input type='checkbox'className='ses_vars' id='cb17' checked={unemployment} value='Unemployment' onClick={() => changeUnemp(toggleButton(unemployment))}/> Unemployment</label>
       <label htmlFor="cb18" class="checkbox-label">
-      <input type='checkbox'className='ses_vars' id='cb18' checked={housingBurden} value='Housing Burden' onClick={() => changeHous(toggleButton(housingBurden))}/> Housing Burden</label>
+      <input type='checkbox'className='ses_vars' id='cb18' checked={housingBurden} value='Housing Burden' onClick={() => changeHous(toggleButton(housingBurden))}/> Housing-Burdened Low Income Households</label>
     </div>
     <hr></hr>
     <div className='checkbox-group'>
       <h3 class='checkbox-header'>CalEnviroScreen Health Factors</h3>
       <label htmlFor="cb19" class="checkbox-label">
-      <input type='checkbox'className='pop_vars' id='cb19' checked={asthma} value='Asthma' onClick={() => changeAst(toggleButton(asthma))}/> Asthma</label>
+      <input type='checkbox'className='pop_vars' id='cb19' checked={asthma} value='Asthma' onClick={() => changeAst(toggleButton(asthma))}/> Asthma-Related ER Visits</label>
       <label htmlFor="cb20" class="checkbox-label">
       <input type='checkbox'className='pop_vars' id='cb20' checked={lowBirthWeight} value='Low Birth Weight' onClick={() => changeLBW(toggleButton(lowBirthWeight))}/> Low Birth Weight</label>
       <label htmlFor="cb21" class="checkbox-label">
-      <input type='checkbox'className='pop_vars' id='cb21' checked={cardiovascularDisease} value='Cardiovascular Disease' onClick={() => changeCardio(toggleButton(cardiovascularDisease))}/> Cardiovascular Disease</label>
+      <input type='checkbox'className='pop_vars' id='cb21' checked={cardiovascularDisease} value='Cardiovascular Disease' onClick={() => changeCardio(toggleButton(cardiovascularDisease))}/> Heart Attack ER Visits</label>
     </div>
     <hr></hr>
     <div className='checkbox-group'>
