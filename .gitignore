@@ -9,7 +9,9 @@
 /build
 
 #Jupyter Notebooks
-backend/app/Scripts*.ipynb
+backend/app/Scripts/*.ipynb
+backend/app/Scripts/Mapping.ipynb
+backend/app/Scripts/Testing.ipynb
 
 #Cleaned Data
 backend/app/cleaned_data
@@ -26,13 +28,13 @@ instance/
 #Python Environments and Misc Python
 backend/app/__pycache__
 backend/__pycache__
+backend/app/Scripts/__pycache__
 backend/.idea
 backend/.ipynb_checkpoints
 backend/venv
 
 # React dependencies
 frontend/node_modules
-frontend/public
 
 
 # misc
