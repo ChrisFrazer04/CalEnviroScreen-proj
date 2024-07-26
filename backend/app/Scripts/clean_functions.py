@@ -124,6 +124,9 @@ def calculate_dac_score(data, env_exp_vars_new=env_exp_vars, env_eff_vars_new=en
         score_df['Score'] = score_df['Pollution Burden MinMax'] * score_df['Pop Char MinMax']
         
     score_df['Percentile'] = score_df['Score'].rank(pct=True)*100
+
+    for col in score_df.columns[2:]:
+        score_df[col] = score_df[col].apply(lambda x: round(x, 3))
     
     def designate(x):
         if x >= 75: #Changing this to > instead of >= makes the standardized % change equal to the paper
