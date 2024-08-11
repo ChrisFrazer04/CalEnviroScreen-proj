@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const WeightSliders = ({ tract, defaultPerc, triggerMapUpdate, onWeightChange,
+const WeightSliders = ({ tract, defaultPerc, triggerMapUpdate, onWeightChange, tractSelected,
                     onEffChange, onExpChange, onPopChange, onSesChange, triggerSliderUpdate}) => {
         const [expWeight, setExpWeight] = useState(1);
         const [effWeight, setEffWeight] = useState(0.5);
@@ -85,41 +85,51 @@ const WeightSliders = ({ tract, defaultPerc, triggerMapUpdate, onWeightChange,
                 triggerMapUpdate()
             }
 
+            const optimize = () => {
+                
+            }
+
             return (
                 <div class='slider-submit-buttons'>
                     <button className='slider-submit' type='submit' onClick={submit}>Update </button>
-                    <button className='slider-submit' type='submit' onClick={submitMap}>Update Map</button>
+                    <button className='slider-submit' type='submit' onClick={submitMap}>Update & Regenerate Map</button>
+                    <button className='slider-submit'>Optimize</button> 
                 </div>
                 
             )
         }
 
     return (
-        <div className='sliders'>
-            <div className='environmental-sliders'>
-                <div className='slider-div'>
-                    <p className='slider-label'>Environmental Exposure Weight: {expWeight}</p>
-                    <input className='slider' type='range' min='0.5' max='2' step='0.05' value={expWeight} onChange={handleExpChange}/>
-                    
+        <div className='sliders-container'>
+            {tractSelected && (
+                <div className='sliders'>
+                <div className='environmental-sliders'>
+                    <div className='slider-div'>
+                        <p className='slider-label'>Environmental Exposure Weight: {expWeight}</p>
+                        <input className='slider' type='range' min='0.5' max='2' step='0.05' value={expWeight} onChange={handleExpChange}/>
+                        
+                    </div>
+                    <div className='slider-div'>
+                        <p className='slider-label'>Environmental Effect Weight: {effWeight}</p>
+                        <input className='slider' type='range' min='0.25' max='1' step='0.05' value={effWeight} onChange={handleEffChange}/>
+                    </div>
                 </div>
-                <div className='slider-div'>
-                    <p className='slider-label'>Environmental Effect Weight: {effWeight}</p>
-                    <input className='slider' type='range' min='0.25' max='1' step='0.05' value={effWeight} onChange={handleEffChange}/>
+                <div className='population-sliders'>
+                    <div className='slider-div'>
+                        <p className='slider-label'>Socieconomic Factor Weight: {sesWeight}</p>
+                        <input className='slider' type='range' min='0.5' max='2' step='0.05' value={sesWeight} onChange={handleSesChange}/>                
+                    </div>
+                    <div className='slider-div'>
+                        <p className='slider-label'>Health Factor Weight: {popWeight}</p>
+                        <input className='slider' type='range' min='0.5' max='2' step='0.05' value={popWeight} onChange={handlePopChange}/>                
+                    </div>
                 </div>
-            </div>
-            <div className='population-sliders'>
-                <div className='slider-div'>
-                    <p className='slider-label'>Socieconomic Factor Weight: {sesWeight}</p>
-                    <input className='slider' type='range' min='0.5' max='2' step='0.05' value={sesWeight} onChange={handleSesChange}/>                
+                <SubmitButton onWeightChange={onWeightChange} triggerSliderUpdate={triggerSliderUpdate}/>
+                
                 </div>
-                <div className='slider-div'>
-                    <p className='slider-label'>Health Factor Weight: {popWeight}</p>
-                    <input className='slider' type='range' min='0.5' max='2' step='0.05' value={popWeight} onChange={handlePopChange}/>                
-                </div>
-            </div>
-            <SubmitButton onWeightChange={onWeightChange} triggerSliderUpdate={triggerSliderUpdate}/>
-            
+            )}
         </div>
+        
 
         
     );

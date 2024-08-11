@@ -1,0 +1,32 @@
+To-do:
+1. Make it such that when you select a county, it generates a map of just that county's tracts
+2. Make it such that when you select a tract, it pull up all the shit for the profile of that tract
+3. Make the "landing page" of the site which contains some basic visualizations and 
+4. Make some sort of visualization for how the tract changes designation when you play around with sliders
+5. Make a "top 5" and "bottom 5" for each tract's categories, displayed in an aesthetic manner
+6. Add reset button(s)
+
+
+1. Clicking some changes in the sidebar will change the map and update the dataframe used in the backend to do further calcs/create visuals
+2. Changing the weights of sliders will update the visuals and add an option to update the map
+
+
+Possible Ways to solve tract mismatch issue:
+1. Perform a point-in-polygon using the approximate location of tracts in the calenviroscreen data to check if 
+   those tracts are inside of the polygons of the geojson data. If they are, then change one of the tract values to match the other
+
+TO-DO IMMEDIATELY
+1. Make the interactions actually update the visuals. There is some problem with backend info being sent forward
+2. After you've selected a tract, add an "optimize" button that autoselects the most favorable combination of weights for that tract's score
+	- To go further, can add an optimize button for different aggregation methods and calculation methods
+
+Meeting Notes:
+1. Create a barchart with counties and what percentage of tracts in them are disadvantaged (purpose is to make the small tracts' impact more interpretable) 
+2. Have other sorts of summary statistics like funding for counties, funding for minorities, etc.
+ - Racial or socioeconomic breakdown of designated vs. undesignated tracts
+ - Some sort of print functionality (ability to print it as a report (county / tract))
+ - 
+
+- Some way of representing the intracategory spread 
+
+- Decent amount of frontend polish

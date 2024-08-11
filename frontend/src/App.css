@@ -23,7 +23,7 @@
   height: 7vh;
   border: 2px solid black;
   padding: 0.5vh 1vw;
-  background-color: #003366;  
+  background-color: #121212;  
   color: #FFFFFF;
 }
 
@@ -44,9 +44,34 @@
   width: 20%;
   padding: 10px;
   overflow-y: auto;
-  background-color: #004488;  
-  color: #FFFFFF;
+  background-color: #F0F0F0;  
+  color: #121212;
   padding-top: 1%;
+}
+
+/* (#004488, 003366) E6E6E6*/
+
+/* Scrollbar container */
+.sidebar::-webkit-scrollbar {
+  width: 12px; /* Width of the scrollbar */
+}
+
+/* Scrollbar track */
+.sidebar::-webkit-scrollbar-track {
+  background: #F5F5F5; /* Color of the track */
+  border-radius: 10px; /* Rounded corners */
+}
+
+/* Scrollbar thumb */
+.sidebar::-webkit-scrollbar-thumb {
+  background: #888; /* Color of the thumb */
+  border-radius: 10px; /* Rounded corners */
+  border: 2px solid #F5F5F5; /* Adds a border around the thumb */
+}
+
+/* Scrollbar thumb on hover */
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Color of the thumb on hover */
 }
 
 h3 {
@@ -58,6 +83,10 @@ h3 {
   display: flex;
   flex-direction: column;
   padding: 0;
+}
+
+.checkbox-group input {
+  margin-bottom: .5em;
 }
 
 .radio-group{
@@ -105,10 +134,125 @@ hr {
 }
 
 
-img {
-  padding: 2%;
-  margin-bottom: 4%;
 
+/* Model Explanation Elements */
+
+.model-explanation {
+  display: flex;
+  flex-direction: column;
+  width: 92%;
+  margin: 0 auto;
+  background-color: #f9f7f1;
+  border: solid 2px black;
+  border-radius: 15px;
+  padding: 2%;
+  margin-bottom: 2%;
+}
+
+.model-explanation h2{
+  font-size: 1.5em;
+  margin-bottom: 0.5%;
+}
+.text-block {
+  margin-bottom: 1%;
+  line-height: 1.4;
+}
+
+.category-diagram-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-bottom: 1%;
+}
+
+.diagram-label-div {
+  width: 45%;
+}
+
+.diagram-label-div p {
+  text-align: center;
+}
+
+.category-diagram {
+  border: solid black 2px;
+  width: 100%;
+  border-radius: 20px;
+  height: 90% 
+}
+
+.score-diagram {
+  border: solid black 2px;
+  border-radius: 20px ;
+  margin-bottom: 1%;
+  width: 93%;
+  margin: 0 auto;
+}
+
+
+
+/* Main Map and Corresponding Plot Elements */
+
+.landing-map {
+  width: 90%;
+  height: 50%;
+  margin: 0 auto;
+  border: solid black 2px;
+  margin-bottom: 100px;
+}
+
+.general-map-plots {
+  border: solid 2px black;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.plot-label {
+  font-weight: bold;
+  text-align: center;
+}
+
+.county-barplot-div {
+  width: 100%;
+  height: 40vh;
+  margin: 0 auto;
+  background-color: #f9f7f1;
+  border-bottom: 2px solid black
+}
+.county-barplot-div .plot-label {
+  padding-top: .4%;
+}
+
+.county-barplot {
+  width: 100%;
+  height: 95%;
+  margin: 0 auto;
+}
+
+.demographic-plot-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 40vh;
+  margin: 0 auto;
+  background-color: #f9f7f1
+}
+
+.demographic-plot-div {
+  width: 50%;
+  height: 100%;
+}
+
+.demographic-plot-div .plot-label {
+  padding-top: .4%;
+}
+
+.demographic-plot {
+  width: 100%;
+  height: 95%;
+}
+
+.last-plot, .last-label {
+  border-left: solid black 2px
 }
 
 /* Find your Tract Elements */
@@ -127,13 +271,6 @@ img {
   margin: 5px;
 }
 
-.landing-map {
-  width: 90%;
-  height: 50%;
-  margin: 0 auto;
-  border: solid black 2px;
-  margin-bottom: 100px;
-}
 
 .county-map-div {
   width: 80%;
@@ -149,51 +286,84 @@ img {
 }
 
 /*Profile Elements */
-.profile {
-  width: 90%;
-  height: 50%;
-  border: solid red 2px;
-  margin: 0 auto;
-  margin-bottom: 10px;
 
+.profile-container {
+  width: 90%;
+  height: 75vh;
+  margin: 0 auto;
+}
+.profile {
+  width: 100%;
+  height: 100%;
+  margin-bottom: 10px;
+}
+
+.profile .plot-label {
+  padding-top: .4%;
+}
+
+.overall-radial-div {
+  width: 50%;
+  margin: 0 auto;
+  height: 33%;
+  border: 2px solid black;
+  border-bottom: none;
+  background-color: #f9f7f1
+}
+
+.overall-radial-container {
+  height: 90%;
+  width: 100%;
+}
+
+.overall-radial {
+  width: 100%;
+  height: 100%;
 }
 
 .score-equation {
-  height: 50%;
+  height: 33%;
   width: 100%;
-  border: solid blue 2px;
-}
-
-.dual-panel {
-  height: 50%;
-  width: 100%;
-  border: solid green 2px;
-  display: flex;
-  flex-direction: row;
-}
-
-.pie-chart {
-  height: 100%;
-  width: 50%;
-  border: solid purple 2px;
+  border: 2px black solid;
+  background-color: #f9f7f1
 }
 
 .radial-charts {
   width: 100%;
-  height: 100%;
+  height: 90%;
   display: flex;
   flex-direction: row;
 }
 .radial-chart {
   height:100%;
-  width: 20%;
-  border: solid green 1px;
+  width: 25%;
 }
+
+.dual-panel {
+  height: 33%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  background-color: #f9f7f1
+}
+
+.pie-chart-div {
+  height: 100%;
+  width: 50%;
+  margin: 0 auto;
+  border: 2px black solid;
+  border-top: none
+}
+
+.pie-chart {
+  height: 90%;
+  width: 100%;
+}
+
 
 .top-variables {
   height: 100%;
   width: 50%;
-  border: solid purple 2px;
 }
 
 /* Slider Elements */
@@ -239,3 +409,6 @@ img {
   background-color: #8682A0;
 }
 
+.footer {
+  height: 3vh;
+}

@@ -26,6 +26,7 @@ raw_geo_df = pd.read_csv(f'{current_dir}/cleaned_data/geojson_data.csv')
 raw_geo_df['geometry'] = raw_geo_df['geometry'].apply(wkt.loads)
 geo_df = gpd.GeoDataFrame(raw_geo_df, geometry='geometry')
 working_geo_df = 'None'
+race_data = pd.read_csv(f"{current_dir}/data/acs_race_poverty_estimates.csv")
 
 old_score['score_comp'] = get_variable_impact(old_score)
 
@@ -85,6 +86,67 @@ def get_profile():
     ]
 
     return jsonify({'maxmsg': max_msg, 'minmsg': min_msg, 'range': values, 'piechart': pie_data, 'radialchart': radial_data})
+
+@bp.route('/profile/overall_graphs', methods=['GET'])
+@cross_origin()
+def get_overall_graphs():
+    if not isinstance(working_score_df, str):
+        score_df = working_score_df
+    else: 
+        score_df = old_score
+    
+    #Percent of tracts which are disadvantaged by county
+    counties = set(score_df['County'].values)
+    perc_disadvantaged = []
+    for county in counties:
+        temp_dict = {}
+        tracts = score_df.loc[score_df['County'] == county]
+        disad_prop = tracts.loc[tracts['DAC'] == 1].shape[0] / tracts.shape[0]
+        temp_dict['name'] = county
+        temp_dict['value'] = round(disad_prop*100, 2)
+        perc_disadvantaged.append(temp_dict)
+    
+    #Racial breakdown of disadvantaged vs. non-disadvantaged tracts
+    perc_cols = [x for x in race_data.columns if x[0] == 'p' and x.find('_') == -1]
+    perc_cols += ['Census Tract', 'Total']
+    race_df = race_data[perc_cols]
+    new_names = {'pWhiteNH': 'White',
+    'pLatine': 'Latino',
+    'pBlack': 'Black',
+    'pAsian': 'Asian',
+    'pAIAN': 'Native American',
+    'pMixed': 'Mixed',
+    'pOther': 'Other',
+    'pNHPI': 'Pacific Islander'}
+
+    race_df.rename(columns=new_names, inplace=True)
+    for col in new_names.values():
+        race_df[col] = race_df[col] * race_df['Total']
+    race_df = score_df.merge(race_df, how='left', on='Census Tract')
+    race_df.dropna(subset=['Total'], inplace=True)
+    yes_dac = race_df.loc[race_df['DAC'] == 1]
+    total_yes = np.sum(yes_dac['Total'].values)
+    no_dac = race_df.loc[race_df['DAC'] == 0]
+    total_no = np.sum(no_dac['Total'].values)
+    yes_dac_data = []
+    no_dac_data = []
+
+    for column in new_names.values():
+        temp_dict_no_dac = {}
+        temp_dict_dac = {}
+        prop_yes = sum(yes_dac[column].values) / total_yes
+        prop_no = sum(no_dac[column].values) / total_no
+        temp_dict_dac['name'] = column
+        temp_dict_dac['value'] = prop_yes
+        temp_dict_no_dac['name'] = column
+        temp_dict_no_dac['value'] = prop_no
+        yes_dac_data.append(temp_dict_dac)
+        no_dac_data.append(temp_dict_no_dac)
+    
+    return jsonify({'disadvantagedBar': perc_disadvantaged, 
+                    'racialDisadvantaged': yes_dac_data, 
+                    'racialNonDisadvantaged': no_dac_data})
+
 
 
 @bp.route('/profile/dynamic_rationale', methods=['POST'])
@@ -207,6 +269,16 @@ colors = {
     'No': ['#EC2E42', 0.9],
     'Missing': ['#C0C0C0', 0.65]
 }
+
+@bp.route('/optimize', methods=['POST'])
+@cross_origin()
+def start_optimize():
+    data = request.json
+
+    print('Optimization Data', data)
+    
+    return jsonify('')
+
 
 # Function to style the GeoJSON layer
 def style_function(feature):

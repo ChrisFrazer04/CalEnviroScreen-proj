@@ -2,14 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Pie, PieChart, ResponsiveContainer, Tooltip, Legend, Cell, RadialBarChart, RadialBar, PolarAngleAxis } from 'recharts'
 import axios from 'axios';
 
-const Profile = ({tract, onTractChange, weights, updateVis}) =>  {
+const Profile = ({tract, onTractChange, weights, updateVis, tractSelected}) =>  {
     const [maxMsg, setMaxMsg] = useState()
     const [minMsg, setMinMsg] = useState()
     const [defaultPerc, setDefaultPerc] = useState(null)
     const [pieData, setPieData] = useState([])
     const [radialData, setRadialData] = useState([])
     const [selectedWeights, setSelectedWeights] = useState(weights)
+    //const [tractSelected, setTractSelected] = useState(false)
     console.log('Profile Weight', weights)
+    console.log('SELECTED TRACT:!:!:0', tractSelected)
 
     useEffect(() => {
         if (tract !== 'Select Tract:') {
@@ -76,7 +78,9 @@ const Profile = ({tract, onTractChange, weights, updateVis}) =>  {
         console.log('Piedata:', pieData)
 
         return (
-            <div className='pie-chart'>
+            <div className='pie-chart-div'>
+                <p className='plot-label'>Score breakdown by category importance</p>
+                <div className='pie-chart'>
                 <ResponsiveContainer >
                     <PieChart width={400} height={400}>
                         <Pie data={pieData} dataKey='value' >
@@ -88,11 +92,44 @@ const Profile = ({tract, onTractChange, weights, updateVis}) =>  {
                         <Legend />
                     </PieChart>
                 </ResponsiveContainer>
+                </div>
+                
             </div>
         )
     }
 
-    const GenerateRadialChart = ({radialData}) => {
+    const GenerateOverallRadial = ({radialData}) => {
+        //const score = radialData['4']['value']
+        //console.log('SCORE', score)
+        return(
+            <div className='overall-radial-container'>
+                <p className='plot-label'>Overall Score: </p>
+                <div className='overall-radial'>
+                    <ResponsiveContainer >
+                        <RadialBarChart 
+                            innerRadius="30%" 
+                            outerRadius="100%" 
+                            data={Array(radialData['4'])} 
+                            startAngle={180} 
+                            endAngle={0}
+                        >
+                        <RadialBar minAngle={15} background={{'fill': '#CBCACA'}} clockWise={true} dataKey='value'/>
+                        <PolarAngleAxis
+                            type="number"
+                            domain={[0, 100]}
+                            angleAxisId={0}
+                            tick={false}
+                        />
+                        <Legend />
+                        <Tooltip />
+                        </RadialBarChart>
+                    </ResponsiveContainer>
+                </div>
+            </div>
+        )
+    }
+
+    const GenerateCategoryRadial = ({radialData}) => {
         console.log('Radial Data', radialData)
         console.log(Array(radialData['0']))
         const data =[{
@@ -187,27 +224,6 @@ const Profile = ({tract, onTractChange, weights, updateVis}) =>  {
                     </RadialBarChart>
                 </ResponsiveContainer>
                 </div>
-                <div className='radial-chart'>
-                <ResponsiveContainer >
-                    <RadialBarChart 
-                        innerRadius="30%" 
-                        outerRadius="100%" 
-                        data={Array(radialData['4'])} 
-                        startAngle={180} 
-                        endAngle={0}
-                    >
-                    <RadialBar minAngle={15} background={{'fill': '#CBCACA'}} clockWise={true} dataKey='value'/>
-                    <PolarAngleAxis
-                        type="number"
-                        domain={[0, 100]}
-                        angleAxisId={0}
-                        tick={false}
-                    />
-                    <Legend />
-                    <Tooltip />
-                    </RadialBarChart>
-                </ResponsiveContainer>
-                </div>
             </div>
         );
     }
@@ -218,17 +234,23 @@ const Profile = ({tract, onTractChange, weights, updateVis}) =>  {
 
 
     return(
-        <div class='profile'>
-            <div className='score-equation'>
-                <GenerateRadialChart radialData={radialData}/>
+        <div>
+            {tractSelected && (
+            <div class='profile-container'> 
+                <div class='profile'>
+                    <div className='overall-radial-div'>
+                        <GenerateOverallRadial radialData={radialData}/>
+                    </div>
+                    <div className='score-equation'>
+                        <p className='plot-label'>Category Ranks</p>
+                        <GenerateCategoryRadial radialData={radialData}/>
+                    </div>
+                    <div className='dual-panel'>
+                        <GeneratePieChart  pieData={pieData}/>
+                    </div>
             </div>
-            <div className='dual-panel'>
-                <GeneratePieChart  pieData={pieData}/>
-                <div className='top-variables'> Topvars
-                    <p className='text'>{maxMsg}</p>
-                    <p className='text'>{minMsg}</p>
-                </div>
-            </div>
+        </div>
+        )}
         </div>
     )
 }

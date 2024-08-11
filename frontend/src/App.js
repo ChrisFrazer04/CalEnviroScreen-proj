@@ -4,6 +4,7 @@ import Dropdowns from './components/dropdown';
 import Profile from './components/profile';
 import Sidebar from './components/sidebar';
 import LandingMap from './components/maps';
+import ModelExplanation from './modelExplanation';
 import axios from 'axios';
 import './App.css';
 
@@ -16,14 +17,21 @@ function App() {
   const [effWeight, setEffWeight] = useState(0.5)
   const [sesWeight, setSesWeight] = useState(1)
   const [popWeight, setPopWeight] = useState(1)
-  const [weights, setWeights] = useState([expWeight, effWeight, sesWeight, popWeight])
+  const [weights, setWeights] = useState({
+    'exp_weight': expWeight,
+    'eff_weight': effWeight,
+    'ses_weight': sesWeight,
+    'pop_weight': popWeight
+})
   const [updateMap, setUpdateMap] = useState(1)
   const [variableData, setVariableData] = useState({})
   const [sliderTrigger, setSliderTrigger] = useState(0)
   const [visUpdate, setVisUpdate] = useState(0)
+  const [tractSelected, setTractSelected] = useState(true)
 
   const handleTractChange = (selectedTract) => {
     setTract(selectedTract);
+    setTractSelected(true)
     // console.log('Frontend tract:', selectedTract)
   };
 
@@ -87,6 +95,7 @@ function App() {
     setVisUpdate(currentVis)
     console.log('Vis Updated')
   }
+
   //HTML
   return(
   <div className='body'>
@@ -95,12 +104,14 @@ function App() {
       <Sidebar onVariableSubmit={handleVariableChange} triggerMapUpdate={handleUpdateMap} weights={weights} sliders={sliderTrigger}
       triggerVisUpdate={handleVisUpdate}/>
     <div className="content">
+      <ModelExplanation />
       <LandingMap updateMap={updateMap}/>
       <Dropdowns onCountyChange={handleCountyChange} onTractChange={handleTractChange} />
-      <Profile tract={selectedTract} onTractChange={getDefaultScore} weights={weights} updateVis={visUpdate}/>
+      <Profile tract={selectedTract} onTractChange={getDefaultScore} weights={weights} updateVis={visUpdate} tractSelected={tractSelected}/>
       <WeightSliders tract={selectedTract} defaultPerc={defaultScore} onExpChange={handleExpChange} onEffChange={handleEffChange}
       onSesChange={handleSesChange} onPopChange={handlePopChange} factors={variableData} triggerMapUpdate={handleUpdateMap}
-      onWeightChange={handleWeightChange} triggerSliderUpdate={handleSliderUpdate}/>
+      onWeightChange={handleWeightChange} triggerSliderUpdate={handleSliderUpdate} tractSelected={tractSelected}/>
+      <div className='footer'></div>
     </div>
     </div>
   </div>
