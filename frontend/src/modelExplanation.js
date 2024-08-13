@@ -15,7 +15,7 @@ const ModelExplanation = () => {
                     <img className='category-diagram' src={`${process.env.PUBLIC_URL}/General_Category_Diagram.png`} alt="Diagram for Category Score" />
                 </div>
                 <div className='diagram-label-div'>
-                    <p>Example: Population Health Formula</p>
+                    <p>Population Health Formula</p>
                     <img className='category-diagram' src={`${process.env.PUBLIC_URL}/Specific_Category_Diagram.png`} alt="Diagram for Category Score" />
                 </div>
                 

@@ -206,6 +206,22 @@ hr {
   margin: 0 auto;
 }
 
+.custom-tooltip {
+  background-color: #F5F5F5;
+  color: #121212;
+  display: flex;
+  flex-direction: column;
+  padding: 1vh;
+  border-radius: 10px;
+  border: solid #B8B8B8 1px;
+}
+
+.tooltip-label {
+  color: #121212;
+  text-align: center;
+  font-weight: bold;
+}
+
 .plot-label {
   font-weight: bold;
   text-align: center;

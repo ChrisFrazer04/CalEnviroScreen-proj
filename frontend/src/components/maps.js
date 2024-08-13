@@ -56,12 +56,27 @@ const LandingMap = ({ updateMap }) => {
             if (active && payload && payload.length) {
               return (
                 <div className="custom-tooltip">
-                  <p className="label">{`${label} : ${payload[0].value}`}</p>
-                  <p className="intro">{`Percent Disadvantaged: ${payload[0].value}`}</p>
+                  <p className="tooltip-label">{`${label} County`}</p>
+                  <p className="tooltip-value">{`Percent Disadvantaged: ${payload[0].value}`}</p>
                 </div>
               );
             }
         }
+
+        const CustomYAxisLabel = ({ viewBox, value }) => {
+            const { x, y } = viewBox;
+            return (
+              <text
+                x={x - 40} // Adjust this value for horizontal spacing
+                y={y + (viewBox.height / 2)} // Center the text vertically
+                fill="black"
+                textAnchor="middle"
+                transform={`rotate(-90, ${x - 40}, ${y + (viewBox.height / 2)})`}
+              >
+                {value}
+              </text>
+            );
+          };
         
         return(
             <div className='county-barplot-div'>
@@ -78,9 +93,8 @@ const LandingMap = ({ updateMap }) => {
                           }}
                     >
                         <XAxis dataKey='name'/>
-                        <YAxis domain={[0, 100]} label={{ value: '% Disadvantaged', angle: -90, position: 'centerLeft', offset: 20}}/>
+                        <YAxis domain={[0, 100]} label={<CustomYAxisLabel value='% Disadvantaged' />} />
                         <Tooltip content={<CustomTooltip />}/>
-                        <Legend />
                         <Bar dataKey='value' fill='#82ca9d'/>
                     </BarChart>
                 </ResponsiveContainer>

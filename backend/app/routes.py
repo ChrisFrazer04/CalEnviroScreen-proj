@@ -19,8 +19,8 @@ current_dir = Path(__file__).parent
 ces_df = pd.read_csv(f"{current_dir}/cleaned_data/cleaned_ces_cdc.csv")
 old_score = pd.read_csv(f"{current_dir}/cleaned_data/default_score.csv")
 working_score_df = 'None'
-dropdown_options = pd.read_csv(f"{current_dir}/cleaned_data/dropdown_labels.csv")
-counties = pd.DataFrame({'County': list(set(dropdown_options['County'].values))}).to_dict(orient='records')
+#dropdown_options = pd.read_csv(f"{current_dir}/cleaned_data/dropdown_labels.csv")
+counties = pd.DataFrame({'County': list(set(old_score['County'].values))}).to_dict(orient='records')
 models = pd.read_csv(f"{current_dir}/cleaned_data/models.csv")
 raw_geo_df = pd.read_csv(f'{current_dir}/cleaned_data/geojson_data.csv')
 raw_geo_df['geometry'] = raw_geo_df['geometry'].apply(wkt.loads)
@@ -36,15 +36,6 @@ bp = Blueprint('main', __name__)
 @cross_origin()
 def send_dropdown_counties():
     return jsonify(counties)
-
-@bp.route('/tract_dropdown', methods=['POST', 'GET'])
-@cross_origin()
-def send_dropdown_tracts():
-    selection = request.json['county']
-    print(selection)
-    subset = dropdown_options.loc[dropdown_options['County'] == selection]
-    options = subset.to_dict(orient='records')
-    return jsonify(options)
 
 @bp.route('/profile/default_rationale', methods=['POST'])
 @cross_origin()

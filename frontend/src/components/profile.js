@@ -101,6 +101,17 @@ const Profile = ({tract, onTractChange, weights, updateVis, tractSelected}) =>  
     const GenerateOverallRadial = ({radialData}) => {
         //const score = radialData['4']['value']
         //console.log('SCORE', score)
+
+        const CustomTooltip = ({ payload, label, active, title }) => {
+            if (active && payload && payload.length) {
+              return (
+                <div className="custom-tooltip">
+                  <p className="tooltip-value">{`Percentile Rank: ${payload[0].value}`}</p>
+                </div>
+              );
+            }
+        }
+
         return(
             <div className='overall-radial-container'>
                 <p className='plot-label'>Overall Score: </p>
@@ -121,7 +132,7 @@ const Profile = ({tract, onTractChange, weights, updateVis, tractSelected}) =>  
                             tick={false}
                         />
                         <Legend />
-                        <Tooltip />
+                        <Tooltip  content={<CustomTooltip />}/>
                         </RadialBarChart>
                     </ResponsiveContainer>
                 </div>
@@ -137,6 +148,16 @@ const Profile = ({tract, onTractChange, weights, updateVis, tractSelected}) =>  
             'value': 20,
             'fill': "#3FCF35"
         }]
+
+        const CustomTooltip = ({ payload, label, active, title }) => {
+            if (active && payload && payload.length) {
+              return (
+                <div className="custom-tooltip">
+                  <p className="tooltip-value">{`Percentile Rank: ${payload[0].value}`}</p>
+                </div>
+              );
+            }
+        }
 
         return (
             <div className='radial-charts'>
@@ -157,7 +178,7 @@ const Profile = ({tract, onTractChange, weights, updateVis, tractSelected}) =>  
                         tick={false}
                     />
                     <Legend />
-                    <Tooltip />
+                    <Tooltip  content={<CustomTooltip />} />
                     </RadialBarChart>
                 </ResponsiveContainer>
                 </div>
@@ -178,7 +199,7 @@ const Profile = ({tract, onTractChange, weights, updateVis, tractSelected}) =>  
                         tick={false}
                     />
                     <Legend />
-                    <Tooltip />
+                    <Tooltip  content={<CustomTooltip />} />
                     </RadialBarChart>
                 </ResponsiveContainer>
                 </div>
@@ -199,7 +220,7 @@ const Profile = ({tract, onTractChange, weights, updateVis, tractSelected}) =>  
                         tick={false}
                     />
                     <Legend />
-                    <Tooltip />
+                    <Tooltip  content={<CustomTooltip />} />
                     </RadialBarChart>
                 </ResponsiveContainer>
                 </div>
@@ -220,7 +241,7 @@ const Profile = ({tract, onTractChange, weights, updateVis, tractSelected}) =>  
                         tick={false}
                     />
                     <Legend />
-                    <Tooltip />
+                    <Tooltip  content={<CustomTooltip />} />
                     </RadialBarChart>
                 </ResponsiveContainer>
                 </div>
