@@ -1,10 +1,11 @@
-[build]
-# Commands to build application
-commands = [
-  "cd backend && pip install -r requirements.txt", # Install Python dependencies
-  "cd frontend && npm install && npm run build"    # Install frontend dependencies and build
-]
-
-[start]
-# Command to start backend server
-command = "cd backend && gunicorn app:app"
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+      "builder": "NIXPACKS"
+  },
+  "deploy": {
+      "startCommand": "gunicorn app:app",
+      "restartPolicyType": "ON_FAILURE",
+      "restartPolicyMaxRetries": 10
+  }
+}
