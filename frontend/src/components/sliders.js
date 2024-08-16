@@ -93,7 +93,6 @@ const WeightSliders = ({ tract, defaultPerc, triggerMapUpdate, onWeightChange, t
                 <div class='slider-submit-buttons'>
                     <button className='slider-submit' type='submit' onClick={submit}>Update </button>
                     <button className='slider-submit' type='submit' onClick={submitMap}>Update & Regenerate Map</button>
-                    <button className='slider-submit'>Optimize</button> 
                 </div>
                 
             )
@@ -103,6 +102,7 @@ const WeightSliders = ({ tract, defaultPerc, triggerMapUpdate, onWeightChange, t
         <div className='sliders-container'>
             {tractSelected && (
                 <div className='sliders'>
+                    <p className='plot-label'>Customize Category Weights:</p>
                 <div className='environmental-sliders'>
                     <div className='slider-div'>
                         <p className='slider-label'>Environmental Exposure Weight: {expWeight}</p>

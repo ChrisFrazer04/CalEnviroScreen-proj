@@ -85,10 +85,19 @@ def get_overall_graphs():
         score_df = working_score_df
     else: 
         score_df = old_score
+
+    print("""
+
+SENDING THE OVERALL GRAPH DATA
+          SEND
+          SENC
+          SEND
+          SEND""")
     
     #Percent of tracts which are disadvantaged by county
     counties = set(score_df['County'].values)
     perc_disadvantaged = []
+    sorted_disadvantaged = []
     for county in counties:
         temp_dict = {}
         tracts = score_df.loc[score_df['County'] == county]
@@ -96,6 +105,7 @@ def get_overall_graphs():
         temp_dict['name'] = county
         temp_dict['value'] = round(disad_prop*100, 2)
         perc_disadvantaged.append(temp_dict)
+
     
     #Racial breakdown of disadvantaged vs. non-disadvantaged tracts
     perc_cols = [x for x in race_data.columns if x[0] == 'p' and x.find('_') == -1]
@@ -195,11 +205,13 @@ def handle_data():
     weights = data['weights']
     global working_score_df
     working_score_df = calculate_dac_score(ces_df, env_exp_vars, env_eff_vars,
-                                    pop_vars, ses_vars, suffix=suffix, 
-                                    avg=calc_method, env_exp_weight=float(weights['exp_weight']), 
+                                    pop_vars, ses_vars, suffix=' Pctl', 
+                                    avg=None, env_exp_weight=float(weights['exp_weight']), 
                                     env_eff_weight=float(weights['eff_weight']),
                                    ses_weight=float(weights['ses_weight']), pop_weight=float(weights['pop_weight']))
-    working_score_df['score_comp'] = get_variable_impact(working_score_df)
+    working_score_df['score_comp'] = get_variable_impact(working_score_df, env_exp_weight=float(weights['exp_weight']), 
+                                    env_eff_weight=float(weights['eff_weight']),
+                                   ses_weight=float(weights['ses_weight']), pop_weight=float(weights['pop_weight']))
 
     def categorize(col):
         if col == 1:
@@ -216,19 +228,6 @@ def handle_data():
                                                                         ).fillna('Missing')
     
     print(working_score_df.head(5))
-    ## OLD CODE - MAKES BARGRAPHS (new_score = working_score_df)
-    #changes = get_tract_changes(old_score, new_score)
-    #changes_bar = changes_barplot(old_score, new_score)
-    #changes_scatter = changes_scatterplot(old_score, new_score)
-    #print(f'Your Changes caused the redesignation of {changes[4]} tracts from the following counties: {changes[5]}')
-    #print(new_score.head())
-
-    # Process the data as needed
-    #print(type(data), changes_bar)
-    #response = {
-    #    "barplot": url_for('static', filename=f'img/{changes_bar}'),
-    #    'scatterplot': url_for('static', filename=f'img/{changes_scatter}')
-    #}
     return jsonify({'task': 'Output New Map'})
 
 @bp.route('/slider', methods=['POST'])
@@ -247,7 +246,8 @@ def slider_change():
                                     pop_vars, ses_vars, suffix=suffix, 
                                     avg=calc_method, env_exp_weight=float(data['exp']), env_eff_weight=float(data['exp']),
                                    ses_weight=float(data['ses']), pop_weight=float(data['pop']))
-    working_score_df['score_comp'] = get_variable_impact(working_score_df)
+    working_score_df['score_comp'] = get_variable_impact(working_score_df, env_exp_weight=float(data['exp']), env_eff_weight=float(data['exp']),
+                                   ses_weight=float(data['ses']), pop_weight=float(data['pop']))
     tract = int(data['tract'])
     percentile = round(working_score_df.loc[working_score_df['Census Tract'] == tract]['Percentile'].values[0], 2)
     print(percentile)
@@ -294,7 +294,6 @@ click_js = """
         click: function(e) {
             var data = e.target.feature.properties
             var tract = data.id
-            console.log(tract)
             window.parent.postMessage(JSON.stringify({ tract: tract }), '*');
         },"""
 
@@ -314,7 +313,11 @@ def get_map1():
         style_function=style_function,
         highlight_function=highlight_function,
         name='DAC Classification',
-        popup=folium.GeoJsonPopup(['id'])
+        popup=folium.GeoJsonPopup(
+            fields=['id', 'County', 'DAC'],  
+            aliases=['Tract: ', 'County: ' ,'Disadvantaged: '],  
+            localize=True  
+        )
     ).add_to(m)
 
     folium.LayerControl().add_to(m)
@@ -370,7 +373,11 @@ def generate_map():
         style_function=style_function,
         highlight_function=highlight_function,
         name='DAC Classification',
-        popup=folium.GeoJsonPopup(['id'])
+        popup=folium.GeoJsonPopup(
+            fields=['id', 'County', 'DAC'],  
+            aliases=['Tract: ', 'County: ' ,'Disadvantaged: '],  
+            localize=True  
+        )
     ).add_to(m)
 
     folium.LayerControl().add_to(m)

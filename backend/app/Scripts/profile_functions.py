@@ -146,26 +146,27 @@ def generate_messages(df, tract, method='default'):
     return [max_msg, min_msg, range]
 
 def get_variable_impact(df, env_eff_weight=0.5, env_exp_weight=1, ses_weight=1, pop_weight=1):
-    max_env_exp = max(df['env_exposure'])
-    max_env_eff = max(df['env_effect'])
-    max_pop = max(df['sens_pop'])
-    max_ses = max(df['ses_factors'])
-    pollution_burden_weight = env_exp_weight + env_eff_weight
-    population_burden_weight = ses_weight + pop_weight
-    max_score = max(df['Pollution Burden'] * df['Pop Char'])
+    env_weights = env_eff_weight + env_exp_weight
+    other_weights = ses_weight + pop_weight
     def get_category_contributions(row):
-        true_score = (row['Pollution Burden']) * row['Pop Char']
-        env_eff_control = (row['env_exposure']*env_exp_weight / pollution_burden_weight) * row['Pop Char']
-        env_eff_pct = round((true_score - env_eff_control) / true_score, 3) / 2
-        env_exp_control = (row['env_effect']*env_eff_weight / pollution_burden_weight) * row['Pop Char']
-        env_exp_pct = round((true_score - env_exp_control) / true_score, 3) / 2
-        ses_control = row['Pollution Burden'] * (row['sens_pop']*pop_weight / population_burden_weight)
-        ses_pct = round((true_score - ses_control) / true_score, 3) / 2
-        pop_control = row['Pollution Burden'] * (row['ses_factors']*ses_weight / population_burden_weight)
-        pop_pct = round((true_score - pop_control) / true_score, 3) / 2
-        return [env_exp_pct, env_eff_pct, ses_pct, pop_pct]
+        #Calculating individual weighted category scores
+        env_exp = row['env_exposure'] * env_exp_weight
+        env_eff = row['env_effect'] * env_eff_weight
+        ses = row['ses_factors'] * ses_weight
+        pop = row['sens_pop'] * pop_weight
+        #Calculating category contributions
+        env_score = (env_exp + env_eff) / env_weights
+        other_score = (ses + pop) / other_weights
+        env_contribution = env_score / (env_score + other_score)
+        other_contribution = other_score / (env_score + other_score)
+        #Calculating subcategory contributions
+        env_exp_cont = round(env_contribution * (env_exp / (env_exp + env_eff)), 3)
+        env_eff_cont = round(env_contribution * (env_eff / (env_exp + env_eff)), 3)
+        ses_cont = round(other_contribution * (ses / (ses + pop)), 3)
+        pop_cont =round(other_contribution * (pop / (ses + pop)), 3)
+        return [env_exp_cont, env_eff_cont, ses_cont, pop_cont]
     
-    return df.apply(lambda row: get_category_contributions(row), axis=1)
+    return df.apply(get_category_contributions, axis=1)
 
 def get_variable_ranks(df, tract):
     row = df.loc[df['Census Tract'] == tract]

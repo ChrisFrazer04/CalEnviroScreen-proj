@@ -97,9 +97,13 @@ h3 {
 hr {
   color: white;
   background-color: white;
-  width: 80%;
+  width: 100%;
   margin: 10px 0;
   padding: 1.5px 0;
+}
+
+.final-break {
+  width: 100%;
 }
 
 .submit-div {
@@ -183,9 +187,9 @@ hr {
 .score-diagram {
   border: solid black 2px;
   border-radius: 20px ;
-  margin-bottom: 1%;
   width: 93%;
   margin: 0 auto;
+  margin-bottom: 1vh;
 }
 
 
@@ -204,10 +208,11 @@ hr {
   border: solid 2px black;
   width: 90%;
   margin: 0 auto;
+  margin-bottom: 1vh;
 }
 
 .custom-tooltip {
-  background-color: #F5F5F5;
+  background-color: #ffffff;
   color: #121212;
   display: flex;
   flex-direction: column;
@@ -250,7 +255,7 @@ hr {
   width: 100%;
   height: 40vh;
   margin: 0 auto;
-  background-color: #f9f7f1
+  background-color: #f9f7f1;
 }
 
 .demographic-plot-div {
@@ -311,11 +316,11 @@ hr {
 .profile {
   width: 100%;
   height: 100%;
-  margin-bottom: 10px;
 }
 
 .profile .plot-label {
-  padding-top: .4%;
+  padding-top: .7vh;
+  margin-top: 0;
 }
 
 .overall-radial-div {
@@ -360,7 +365,8 @@ hr {
   width: 100%;
   display: flex;
   flex-direction: row;
-  background-color: #f9f7f1
+  background-color: #f9f7f1;
+  margin-bottom: 0;
 }
 
 .pie-chart-div {
@@ -368,7 +374,8 @@ hr {
   width: 50%;
   margin: 0 auto;
   border: 2px black solid;
-  border-top: none
+  border-top: none;
+  margin-bottom: 0;
 }
 
 .pie-chart {
@@ -378,17 +385,28 @@ hr {
 
 
 .top-variables {
-  height: 100%;
-  width: 50%;
+  display: none;
 }
 
 /* Slider Elements */
+
+.sliders {
+  border: 2px black solid;
+  background-color: #f9f7f1;
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 1vh;
+}
+
+.sliders .plot-label {
+  margin-top: .7vh;
+}
 
 .environmental-sliders, .population-sliders {
   display: flex;
   flex-direction: row;
   margin: 0 auto;
-  width: 90%
+  width: 100%
 }
 
 .slider-div {
@@ -419,6 +437,7 @@ hr {
   border: 1px solid gray;
   padding: 5px;
   margin-top: 10px;
+  margin-bottom: 1vh;
 }
 
 .slider-submit:hover{

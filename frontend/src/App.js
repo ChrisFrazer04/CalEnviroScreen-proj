@@ -27,7 +27,7 @@ function App() {
   const [variableData, setVariableData] = useState({})
   const [sliderTrigger, setSliderTrigger] = useState(0)
   const [visUpdate, setVisUpdate] = useState(0)
-  const [tractSelected, setTractSelected] = useState(true)
+  const [tractSelected, setTractSelected] = useState(false)
 
   const handleTractChange = (selectedTract) => {
     setTract(selectedTract);
@@ -99,7 +99,7 @@ function App() {
   //HTML
   return(
   <div className='body'>
-    <div className='header'><h1 className='header-text'>CalEnviroScreen Visualizer</h1></div>
+    <div className='header'><h1 className='header-text'>CalEnviroVisualizer</h1></div>
     <div className='main'>
       <Sidebar onVariableSubmit={handleVariableChange} triggerMapUpdate={handleUpdateMap} weights={weights} sliders={sliderTrigger}
       triggerVisUpdate={handleVisUpdate}/>
