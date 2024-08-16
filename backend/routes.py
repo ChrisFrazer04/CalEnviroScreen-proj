@@ -1,8 +1,6 @@
 from flask import Blueprint, request, jsonify, url_for, send_file
 from flask_cors import cross_origin
 from pathlib import Path
-from matplotlib.lines import Line2D
-import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 import math

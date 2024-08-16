@@ -5,9 +5,6 @@ from sklearn.preprocessing import scale, MinMaxScaler
 from scipy.stats import pearsonr
 import folium
 import json
-from ipyleaflet import Map, GeoJSON, WidgetControl
-from ipywidgets.embed import embed_minimal_html
-import ipywidgets as widgets
 
 
 
@@ -136,62 +133,6 @@ def calculate_dac_score(data, env_exp_vars_new=env_exp_vars, env_eff_vars_new=en
             
     score_df['DAC'] = score_df['Percentile'].apply(designate)
     return score_df
-
-##Mapping Functions
-
-def make_map_choropleth(geojson_data, data):
-    """Creates a folium choropleth map."""
-    m = folium.Map(location=[37.77,-122.41], zoom_start=6)
-
-    folium.Choropleth(
-        geo_data=geojson_data,
-        data=data,
-        columns=['GEOID', 'DAC'],
-        key_on='properties.GEOID',
-        fill_color='GnBu',
-        fill_opacity=0.5,
-        line_opacity=0.5,
-        legend_name='DAC_Designated'
-    ).add_to(m)
-    return m
-
-def make_map(geojson_data):
-    #Colors for each DAC category
-    colors = {
-        'Yes': ['#2EEC57', 0.7],
-        'No': ['#EC2E42', 0.7],
-        'Missing': ['#C0C0C0', 0.5]
-    }
-
-    # Function to style the GeoJSON layer
-    def style_function(feature):
-        return {
-            'fillColor': colors[feature['DAC']][0],  # Fill color (hex color code)
-            'color': 'black',        # Border color
-            'weight': 0.1,           # Border width
-            'fillOpacity': colors[feature['DAC']][1]         # Fill opacity
-        }
-
-
-    # Create a map
-    m = Map(center=[37.77, -122.41], zoom=6, scroll_wheel_zoom=True)
-
-    # Create a GeoJSON layer
-    geo_json_layer = GeoJSON(
-        data=geojson_data,
-        style_callback=style_function,
-        hover_style={'fillColor': 'yellow', 'fillOpacity': 0.2},
-        name='DAC Classification'
-    )
-
-    # Add the GeoJSON layer to the map
-    m.add_layer(geo_json_layer)
-
-    # Add a widget control for displaying the map
-    widget_control = WidgetControl(widget=widgets.Output(), position='topright')
-    m.add_control(widget_control)
-
-    return m
 
 
 ##Funding Functions
