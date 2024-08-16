@@ -80,7 +80,7 @@ const CountyBarplot = ({data}) => {
 
 const DemographicPlot = ({yesDacData, noDacData}) => {
     const colors = ['#48b10a', '#0a9cb1', '#730ab1', '#b1200a', '#d17b14', '#d1c914', '#142cd1', '#d11461']
-    console.log('Right Pie Data: ', yesDacData)
+    //console.log('Right Pie Data: ', yesDacData)
 
     const CustomTooltip = ({ payload, label, active}) => {
         if (active && payload && payload.length) {
@@ -142,7 +142,7 @@ const LandingMap = ({ updateMap }) => {
     useEffect(() => {
         const fetchMap = async () => {
             try {
-                console.log('Map Updated in Backend')
+                //console.log('Map Updated in Backend')
                 const response = await axios.get('https://calenviroscreen-proj-production.up.railway.app/api/landing_map');
                 setMapHtml(response.data.map);
             } catch (error) {
@@ -157,7 +157,7 @@ const LandingMap = ({ updateMap }) => {
         // Function to handle the data from the map onclick
         const handleMapClick = (event) => {
           const data = event.data
-          console.log('data', data)
+          //console.log('data', data)
         };
     
         window.addEventListener('message', handleMapClick);
@@ -174,11 +174,11 @@ const LandingMap = ({ updateMap }) => {
                 setCountyBreakdown(response.data.disadvantagedBar);
                 setDisadData(response.data.racialDisadvantaged)
                 setNonDisadData(response.data.racialNonDisadvantaged)
-                console.log('Returned Data:', response.data.disadvantagedBar)
+                //console.log('Returned Data:', response.data.disadvantagedBar)
             })
             //console.log('County Breakdown Data', countyBreakdown)
         } catch (error) {
-            console.log('Error fetching map figures')
+            //console.log('Error fetching map figures')
         }
     }, [updateMap])
 

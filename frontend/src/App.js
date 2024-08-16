@@ -8,8 +8,6 @@ import ModelExplanation from './modelExplanation';
 import axios from 'axios';
 import './App.css';
 
-// railway backend link: https://calenviroscreen-proj-production.up.railway.app/
-//localhost: http://127.0.0.1:5000
 
 function App() {
   //user-inputted variables
@@ -40,7 +38,7 @@ function App() {
 
   const handleCountyChange = (county) =>{
     setCounty(county)
-    console.log('Frontend County:', county)
+    //console.log('Frontend County:', county)
   }
 
   const getDefaultScore = (defaultScore) => {
@@ -50,7 +48,7 @@ function App() {
   const handleExpChange = (wgt) => {
     setExpWeight(wgt)
     setWeights([wgt, expWeight, sesWeight, popWeight])
-    console.log('Frontend Weights: ', weights)
+    //console.log('Frontend Weights: ', weights)
   }
 
   const handleWeightChange = (wgts) => {
@@ -60,43 +58,43 @@ function App() {
   const handleEffChange = (wgt) => {
     setEffWeight(wgt)
     setWeights([expWeight, wgt, sesWeight, popWeight])
-    console.log('Frontend Weights: ', wgt)
+    //console.log('Frontend Weights: ', wgt)
   }
 
   const handleSesChange = (wgt) => {
     setSesWeight(wgt)
     setWeights([expWeight, effWeight, wgt, popWeight])
-    console.log('Frontend Weights: ', weights)
+    //console.log('Frontend Weights: ', weights)
   }
 
   const handlePopChange = (wgt) => {
     setPopWeight(wgt)
     setWeights([expWeight, effWeight, sesWeight, wgt])
-    console.log('Frontend Weights: ', weights)
+    //console.log('Frontend Weights: ', weights)
   }
 
   const handleUpdateMap = (update) => {
     let mapcount = updateMap + 1
     setUpdateMap(mapcount)
-    console.log('Map Updated')
+    //console.log('Map Updated')
     
   }
 
   const handleVariableChange = (variables) => {
     setVariableData(variables)
-    console.log('Frontend Variables :', variableData)
+    //console.log('Frontend Variables :', variableData)
   }
 
   const handleSliderUpdate = () => {
     const currentSlider = sliderTrigger + 1
     setSliderTrigger(currentSlider)
-    console.log('Slider Trigger Handled')
+    //console.log('Slider Trigger Handled')
   }
 
   const handleVisUpdate = () => {
     const currentVis = visUpdate + 1
     setVisUpdate(currentVis)
-    console.log('Vis Updated')
+    //console.log('Vis Updated')
   }
 
   //HTML
@@ -123,3 +121,5 @@ function App() {
 }
 
 export default App
+
+//localhost: http://127.0.0.1:5000

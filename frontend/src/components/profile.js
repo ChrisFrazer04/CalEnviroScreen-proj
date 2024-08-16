@@ -82,8 +82,8 @@ const GenerateOverallRadial = ({radialData}) => {
 }
 
 const GenerateCategoryRadial = ({radialData}) => {
-    console.log('Radial Data', radialData)
-    console.log(Array(radialData['0']))
+    //console.log('Radial Data', radialData)
+    //console.log(Array(radialData['0']))
     const data =[{
         'name': 'tester',
         'value': 20,
@@ -196,8 +196,8 @@ const Profile = ({tract, onTractChange, weights, updateVis, tractSelected}) =>  
     const [radialData, setRadialData] = useState([])
     const [selectedWeights, setSelectedWeights] = useState(weights)
     //const [tractSelected, setTractSelected] = useState(false)
-    console.log('Profile Weight', weights)
-    console.log('SELECTED TRACT:!:!:0', tractSelected)
+    //console.log('Profile Weight', weights)
+    //console.log('SELECTED TRACT:!:!:0', tractSelected)
 
     useEffect(() => {
         if (tract !== 'Select Tract:') {
@@ -206,7 +206,7 @@ const Profile = ({tract, onTractChange, weights, updateVis, tractSelected}) =>  
                     setDefaultPerc(response.data.range)
                     setPieData(response.data.piechart)
                     setRadialData(response.data.radialchart)
-                    console.log('Data', response.data)
+                    //console.log('Data', response.data)
                 })
                 .catch(error => {
                     console.error("Error fetching options:", error);
@@ -228,12 +228,12 @@ const Profile = ({tract, onTractChange, weights, updateVis, tractSelected}) =>  
                 'tract': tract,
                 'weights': selectedWeights,
             }
-            console.log('Triggered', data)
+            //console.log('Triggered', data)
             axios.post('https://calenviroscreen-proj-production.up.railway.app/profile/dynamic_rationale', { data })
                 .then(response => {
                     setPieData(response.data.piechart)
                     setRadialData(response.data.radialchart)
-                    console.log('Data', response.data)
+                    //console.log('Data', response.data)
                 })
                 .catch(error => {
                     console.error("Error fetching options:", error);

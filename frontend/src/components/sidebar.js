@@ -26,7 +26,7 @@ const Sidebar = ({ onVariableSubmit, triggerMapUpdate, weights, sliders, trigger
   const [submitted, setSubmitted] = useState(false)
   const [sliderTrigger, setSliderTrigger] = useState('false')
 
-  console.log('Sliders: ', sliders)
+  //console.log('Sliders: ', sliders)
 
   // Changes state of checkbox buttons on click
   function toggleButton(state) {
@@ -71,7 +71,6 @@ const Sidebar = ({ onVariableSubmit, triggerMapUpdate, weights, sliders, trigger
     let cmethod = calcMethod;
 
     document.querySelectorAll('.env_exp').forEach(factor => {
-      console.log('Value: ', factor.value)
       if (factor.checked) env_exp.push(factor.value);
     });
 
@@ -96,15 +95,15 @@ const Sidebar = ({ onVariableSubmit, triggerMapUpdate, weights, sliders, trigger
       "calc_method": cmethod,
       'weights': weights
     };
-    console.log('BIGDATA', data)
+    //console.log('BIGDATA', data)
     //onVariableSubmit(data)
     //setVariableData(data);
     return data;
   }
 
   const sendData = async (data) => {
-    console.log('started');
-    console.log('data:', data)
+    //console.log('started');
+    //console.log('data:', data)
 
     try {
       const res = await axios.post('https://calenviroscreen-proj-production.up.railway.app/api/data', data);
@@ -121,7 +120,7 @@ const Sidebar = ({ onVariableSubmit, triggerMapUpdate, weights, sliders, trigger
 
     const handleClick = () => {
       const data = updateData()
-      console.log(data)
+      //console.log(data)
       setVariableData(data);
       sendData(data)
       //triggerVisUpdate()
@@ -139,7 +138,7 @@ const Sidebar = ({ onVariableSubmit, triggerMapUpdate, weights, sliders, trigger
     if (sliders !== 0) {
       const handleSliderUpdate = () => {
         const data = updateData()
-        console.log('Slider Update data', data)
+        //console.log('Slider Update data', data)
         setVariableData(data);
         //triggerVisUpdate()
         sendData(data)

@@ -55,8 +55,8 @@ const TractDropdown = ({county, onTractChange}) => {
           const data = JSON.parse(event.data)
           const tract = data.tract
           onTractChange(tract)
-          console.log('data', data)
-          console.log('tract', tract)
+          //console.log('data', data)
+          //console.log('tract', tract)
         };
     
         window.addEventListener('message', handleMapClick);
