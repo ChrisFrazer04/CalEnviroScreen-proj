@@ -191,8 +191,6 @@ const GenerateCategoryRadial = ({radialData}) => {
 }
 
 const Profile = ({tract, onTractChange, weights, updateVis, tractSelected}) =>  {
-    const [maxMsg, setMaxMsg] = useState()
-    const [minMsg, setMinMsg] = useState()
     const [defaultPerc, setDefaultPerc] = useState(null)
     const [pieData, setPieData] = useState([])
     const [radialData, setRadialData] = useState([])
@@ -205,8 +203,6 @@ const Profile = ({tract, onTractChange, weights, updateVis, tractSelected}) =>  
         if (tract !== 'Select Tract:') {
             axios.post('http://127.0.0.1:5000/profile/default_rationale', { tract })
                 .then(response => {
-                    setMaxMsg(response.data.maxmsg);
-                    setMinMsg(response.data.minmsg);
                     setDefaultPerc(response.data.range)
                     setPieData(response.data.piechart)
                     setRadialData(response.data.radialchart)
@@ -216,9 +212,6 @@ const Profile = ({tract, onTractChange, weights, updateVis, tractSelected}) =>  
                     console.error("Error fetching options:", error);
                 });
         } else {
-            setMaxMsg();
-            setMinMsg();
-            setDefaultPerc(null)
         }
     }, [tract]);
 
@@ -238,9 +231,6 @@ const Profile = ({tract, onTractChange, weights, updateVis, tractSelected}) =>  
             console.log('Triggered', data)
             axios.post('http://127.0.0.1:5000/profile/dynamic_rationale', { data })
                 .then(response => {
-                    setMaxMsg(response.data.maxmsg);
-                    setMinMsg(response.data.minmsg);
-                    setDefaultPerc(response.data.range)
                     setPieData(response.data.piechart)
                     setRadialData(response.data.radialchart)
                     console.log('Data', response.data)
@@ -249,17 +239,8 @@ const Profile = ({tract, onTractChange, weights, updateVis, tractSelected}) =>  
                     console.error("Error fetching options:", error);
                 });
         } else {
-            setMaxMsg();
-            setMinMsg();
-            setDefaultPerc(null)
         }
     }, [tract, updateVis]);
-
-    useEffect(() => {
-        if (defaultPerc !== null) {
-            onTractChange(defaultPerc);
-        }
-    }, [defaultPerc, onTractChange]);
 
 
     return(

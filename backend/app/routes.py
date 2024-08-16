@@ -11,9 +11,8 @@ from folium import Element, MacroElement
 from jinja2 import Template
 import geopandas as gpd
 from shapely import wkt
-from Scripts.clean_functions import calculate_dac_score, get_tract_changes, get_funding_reallocation_24
-from Scripts.Graph_functions import changes_barplot, changes_scatterplot
-from Scripts.profile_functions import generate_messages, get_variable_impact
+from Scripts.clean_functions import calculate_dac_score
+from Scripts.profile_functions import get_variable_impact
 
 current_dir = Path(__file__).parent
 ces_df = pd.read_csv(f"{current_dir}/cleaned_data/cleaned_ces_cdc.csv")
@@ -21,12 +20,11 @@ old_score = pd.read_csv(f"{current_dir}/cleaned_data/default_score.csv")
 working_score_df = 'None'
 #dropdown_options = pd.read_csv(f"{current_dir}/cleaned_data/dropdown_labels.csv")
 counties = pd.DataFrame({'County': list(set(old_score['County'].values))}).to_dict(orient='records')
-models = pd.read_csv(f"{current_dir}/cleaned_data/models.csv")
 raw_geo_df = pd.read_csv(f'{current_dir}/cleaned_data/geojson_data.csv')
 raw_geo_df['geometry'] = raw_geo_df['geometry'].apply(wkt.loads)
 geo_df = gpd.GeoDataFrame(raw_geo_df, geometry='geometry')
 working_geo_df = 'None'
-race_data = pd.read_csv(f"{current_dir}/data/acs_race_poverty_estimates.csv")
+race_data = pd.read_csv(f"{current_dir}/cleaned_data/acs_race_poverty_estimates.csv")
 
 old_score['score_comp'] = get_variable_impact(old_score)
 
@@ -48,11 +46,6 @@ def get_profile():
     print('Default Rationale Triggered')
     print(request.json)
     tract = request.json['tract']
-    messages = generate_messages(models, tract, method='')
-    max_msg = messages[0]
-    min_msg = messages[1]
-    values = round(messages[2]['default'], 2)
-    #print(messages)
     row = score_df.loc[score_df['Census Tract'] == tract]
     var_comp = row['score_comp'].values[0]
     pie_data = [
@@ -76,7 +69,7 @@ def get_profile():
         {'name': 'Overall', 'value': round(row['Percentile'].values[0], 2), 'fill': '#CF3582'}
     ]
 
-    return jsonify({'maxmsg': max_msg, 'minmsg': min_msg, 'range': values, 'piechart': pie_data, 'radialchart': radial_data})
+    return jsonify({'piechart': pie_data, 'radialchart': radial_data})
 
 @bp.route('/profile/overall_graphs', methods=['GET'])
 @cross_origin()
@@ -85,14 +78,6 @@ def get_overall_graphs():
         score_df = working_score_df
     else: 
         score_df = old_score
-
-    print("""
-
-SENDING THE OVERALL GRAPH DATA
-          SEND
-          SENC
-          SEND
-          SEND""")
     
     #Percent of tracts which are disadvantaged by county
     counties = set(score_df['County'].values)
@@ -159,11 +144,6 @@ def dynamic_rationale():
         score_df = old_score
     print('Dynamic Rationale Data:', request.json)
     tract = request.json['data']['tract']
-    messages = generate_messages(models, tract, method='')
-    max_msg = messages[0]
-    min_msg = messages[1]
-    values = round(messages[2]['default'], 2)
-    #print(messages)
     row = score_df.loc[score_df['Census Tract'] == tract]
     var_comp = row['score_comp'].values[0]
     pie_data = [
@@ -187,7 +167,7 @@ def dynamic_rationale():
         {'name': 'Overall', 'value': round(row['Percentile'].values[0], 2), 'fill': '#CF3582'}
     ]
 
-    return jsonify({'maxmsg': max_msg, 'minmsg': min_msg, 'range': values, 'piechart': pie_data, 'radialchart': radial_data})
+    return jsonify({'piechart': pie_data, 'radialchart': radial_data})
     
 
 

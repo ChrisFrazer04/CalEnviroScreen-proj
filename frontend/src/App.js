@@ -108,7 +108,7 @@ function App() {
       <LandingMap updateMap={updateMap}/>
       <Dropdowns onCountyChange={handleCountyChange} onTractChange={handleTractChange} />
       <Profile tract={selectedTract} onTractChange={getDefaultScore} weights={weights} updateVis={visUpdate} tractSelected={tractSelected}/>
-      <WeightSliders tract={selectedTract} defaultPerc={defaultScore} onExpChange={handleExpChange} onEffChange={handleEffChange}
+      <WeightSliders tract={selectedTract} onExpChange={handleExpChange} onEffChange={handleEffChange}
       onSesChange={handleSesChange} onPopChange={handlePopChange} factors={variableData} triggerMapUpdate={handleUpdateMap}
       onWeightChange={handleWeightChange} triggerSliderUpdate={handleSliderUpdate} tractSelected={tractSelected}/>
       <div className='footer'></div>

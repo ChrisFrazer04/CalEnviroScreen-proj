@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const WeightSliders = ({ tract, defaultPerc, triggerMapUpdate, onWeightChange, tractSelected,
+const WeightSliders = ({ tract, triggerMapUpdate, onWeightChange, tractSelected,
                     onEffChange, onExpChange, onPopChange, onSesChange, triggerSliderUpdate}) => {
         const [expWeight, setExpWeight] = useState(1);
         const [effWeight, setEffWeight] = useState(0.5);
         const [sesWeight, setSesWeight] = useState(1);
         const [popWeight, setPopWeight] = useState(1);
-        const [percentile, setPercentile] = useState(defaultPerc);
         const [selectedTract, setSelectedTract] = useState(tract);
         const [weights, setWeights] = useState({});
 
@@ -19,9 +18,8 @@ const WeightSliders = ({ tract, defaultPerc, triggerMapUpdate, onWeightChange, t
                 setEffWeight(0.5);
                 setSesWeight(1);
                 setPopWeight(1);
-                setPercentile(defaultPerc);
                 setSelectedTract(tract);
-            }, [tract, defaultPerc]);
+            }, [tract]);
             
         }
         
@@ -129,9 +127,6 @@ const WeightSliders = ({ tract, defaultPerc, triggerMapUpdate, onWeightChange, t
                 </div>
             )}
         </div>
-        
-
-        
     );
 };
 
