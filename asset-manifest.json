@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/CalEnviroScreen-proj/static/css/main.235c24e7.css",
-    "main.js": "/CalEnviroScreen-proj/static/js/main.cbc0fb1f.js",
-    "static/js/453.d855a71b.chunk.js": "/CalEnviroScreen-proj/static/js/453.d855a71b.chunk.js",
-    "index.html": "/CalEnviroScreen-proj/index.html",
-    "main.235c24e7.css.map": "/CalEnviroScreen-proj/static/css/main.235c24e7.css.map",
-    "main.cbc0fb1f.js.map": "/CalEnviroScreen-proj/static/js/main.cbc0fb1f.js.map",
-    "453.d855a71b.chunk.js.map": "/CalEnviroScreen-proj/static/js/453.d855a71b.chunk.js.map"
+    "main.css": "/CalEnviroScreen-proj/frontend/static/css/main.235c24e7.css",
+    "main.js": "/CalEnviroScreen-proj/frontend/static/js/main.97babdee.js",
+    "static/js/453.d855a71b.chunk.js": "/CalEnviroScreen-proj/frontend/static/js/453.d855a71b.chunk.js",
+    "index.html": "/CalEnviroScreen-proj/frontend/index.html",
+    "main.235c24e7.css.map": "/CalEnviroScreen-proj/frontend/static/css/main.235c24e7.css.map",
+    "main.97babdee.js.map": "/CalEnviroScreen-proj/frontend/static/js/main.97babdee.js.map",
+    "453.d855a71b.chunk.js.map": "/CalEnviroScreen-proj/frontend/static/js/453.d855a71b.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.235c24e7.css",
-    "static/js/main.cbc0fb1f.js"
+    "static/js/main.97babdee.js"
   ]
 }
