@@ -1,0 +1,10 @@
+[build]
+# Commands to build application
+commands = [
+  "cd backend && pip install -r requirements.txt", # Install Python dependencies
+  "cd frontend && npm install && npm run build"    # Install frontend dependencies and build
+]
+
+[start]
+# Command to start backend server
+command = "cd backend && gunicorn app:app"
