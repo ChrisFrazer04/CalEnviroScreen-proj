@@ -20,7 +20,7 @@ const GeneratePieChart = ({pieData}) => {
 
     return (
         <div className='pie-chart-div'>
-            <p className='plot-label'>Score breakdown by category importance</p>
+            <p className='plot-label'>Category Contribution to Overall Score</p>
             <div className='pie-chart'>
             <ResponsiveContainer >
                 <PieChart width={400} height={400}>
@@ -201,7 +201,7 @@ const Profile = ({tract, onTractChange, weights, updateVis, tractSelected}) =>  
 
     useEffect(() => {
         if (tract !== 'Select Tract:') {
-            axios.post('http://127.0.0.1:5000/profile/default_rationale', { tract })
+            axios.post('https://calenviroscreen-proj-production.up.railway.app/profile/default_rationale', { tract })
                 .then(response => {
                     setDefaultPerc(response.data.range)
                     setPieData(response.data.piechart)
@@ -229,7 +229,7 @@ const Profile = ({tract, onTractChange, weights, updateVis, tractSelected}) =>  
                 'weights': selectedWeights,
             }
             console.log('Triggered', data)
-            axios.post('http://127.0.0.1:5000/profile/dynamic_rationale', { data })
+            axios.post('https://calenviroscreen-proj-production.up.railway.app/profile/dynamic_rationale', { data })
                 .then(response => {
                     setPieData(response.data.piechart)
                     setRadialData(response.data.radialchart)

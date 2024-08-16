@@ -8,6 +8,9 @@ import ModelExplanation from './modelExplanation';
 import axios from 'axios';
 import './App.css';
 
+// railway backend link: https://calenviroscreen-proj-production.up.railway.app/
+//localhost: http://127.0.0.1:5000
+
 function App() {
   //user-inputted variables
   const [county, setCounty] = useState('Select County:')
