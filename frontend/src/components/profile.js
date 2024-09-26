@@ -55,7 +55,7 @@ const GenerateOverallRadial = ({radialData}) => {
 
     return(
         <div className='overall-radial-container'>
-            <p className='plot-label'>Overall Score: </p>
+            <p className='plot-label'>Overall Score</p>
             <div className='overall-radial'>
                 <ResponsiveContainer >
                     <RadialBarChart 
@@ -201,7 +201,7 @@ const Profile = ({tract, onTractChange, weights, updateVis, tractSelected}) =>  
 
     useEffect(() => {
         if (tract !== 'Select Tract:') {
-            axios.post('https://calenviroscreen-proj-production.up.railway.app/profile/default_rationale', { tract })
+            axios.post('http://127.0.0.1:5000/profile/default_rationale', { tract })
                 .then(response => {
                     setDefaultPerc(response.data.range)
                     setPieData(response.data.piechart)
@@ -229,7 +229,7 @@ const Profile = ({tract, onTractChange, weights, updateVis, tractSelected}) =>  
                 'weights': selectedWeights,
             }
             //console.log('Triggered', data)
-            axios.post('https://calenviroscreen-proj-production.up.railway.app/profile/dynamic_rationale', { data })
+            axios.post('http://127.0.0.1:5000/profile/dynamic_rationale', { data })
                 .then(response => {
                     setPieData(response.data.piechart)
                     setRadialData(response.data.radialchart)

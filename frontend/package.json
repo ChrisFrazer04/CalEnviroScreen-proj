@@ -1,7 +1,6 @@
 {
   "name": "frontend",
   "version": "0.1.0",
-  "homepage": "https://chrisfrazer04.github.io/CalEnviroScreen-proj/frontend",
   "private": true,
   "proxy": "http://127.0.0.1:5000",
   "dependencies": {

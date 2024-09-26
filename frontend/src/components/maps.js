@@ -143,7 +143,7 @@ const LandingMap = ({ updateMap }) => {
         const fetchMap = async () => {
             try {
                 //console.log('Map Updated in Backend')
-                const response = await axios.get('https://calenviroscreen-proj-production.up.railway.app/api/landing_map');
+                const response = await axios.get('http://127.0.0.1:5000/api/landing_map');
                 setMapHtml(response.data.map);
             } catch (error) {
                 console.error('Error fetching map:', error);
@@ -170,7 +170,7 @@ const LandingMap = ({ updateMap }) => {
     useEffect(() => {
         try{
             
-            const response = axios.get('https://calenviroscreen-proj-production.up.railway.app/profile/overall_graphs').then(response => {
+            const response = axios.get('http://127.0.0.1:5000/profile/overall_graphs').then(response => {
                 setCountyBreakdown(response.data.disadvantagedBar);
                 setDisadData(response.data.racialDisadvantaged)
                 setNonDisadData(response.data.racialNonDisadvantaged)

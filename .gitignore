@@ -32,6 +32,7 @@ backend/app/Scripts/__pycache__
 backend/.idea
 backend/.ipynb_checkpoints
 backend/venv
+backend/realvenv
 
 # React dependencies
 frontend/node_modules

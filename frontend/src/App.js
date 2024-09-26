@@ -8,6 +8,7 @@ import ModelExplanation from './modelExplanation';
 import axios from 'axios';
 import './App.css';
 
+//Backend host URL: https://calenviroscreen-proj-production.up.railway.app
 
 function App() {
   //user-inputted variables
@@ -103,15 +104,12 @@ function App() {
     <div className='header'><h1 className='header-text'>CalEnviroVisualizer</h1></div>
     <div className='main'>
       <Sidebar onVariableSubmit={handleVariableChange} triggerMapUpdate={handleUpdateMap} weights={weights} sliders={sliderTrigger}
-      triggerVisUpdate={handleVisUpdate}/>
+      triggerVisUpdate={handleVisUpdate} triggerSliderUpdate={handleSliderUpdate} onWeightChange={handleWeightChange} tractSelected={tractSelected}/>
     <div className="content">
       <ModelExplanation />
       <LandingMap updateMap={updateMap}/>
       <Dropdowns onCountyChange={handleCountyChange} onTractChange={handleTractChange} />
       <Profile tract={selectedTract} onTractChange={getDefaultScore} weights={weights} updateVis={visUpdate} tractSelected={tractSelected}/>
-      <WeightSliders tract={selectedTract} onExpChange={handleExpChange} onEffChange={handleEffChange}
-      onSesChange={handleSesChange} onPopChange={handlePopChange} factors={variableData} triggerMapUpdate={handleUpdateMap}
-      onWeightChange={handleWeightChange} triggerSliderUpdate={handleSliderUpdate} tractSelected={tractSelected}/>
       <div className='footer'></div>
     </div>
     </div>
@@ -123,3 +121,7 @@ function App() {
 export default App
 
 //localhost: http://127.0.0.1:5000
+
+// <WeightSliders tract={selectedTract} onExpChange={handleExpChange} onEffChange={handleEffChange}
+// onSesChange={handleSesChange} onPopChange={handlePopChange} factors={variableData} triggerMapUpdate={handleUpdateMap}
+// onWeightChange={handleWeightChange} triggerSliderUpdate={handleSliderUpdate} tractSelected={tractSelected}/>

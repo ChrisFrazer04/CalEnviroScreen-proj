@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const Sidebar = ({ onVariableSubmit, triggerMapUpdate, weights, sliders, triggerVisUpdate}) => {
+const Sidebar = ({ onVariableSubmit, triggerMapUpdate, sliders, triggerVisUpdate, onWeightChange, triggerSliderUpdate}) => {
   const [envExp, setEnvExp] = useState({
     ozone: true, pm25: true, dieselP: true, drinkingWater: true, lead: true, 
     pesticides: true, toxRelease: true, traffic: true
@@ -26,7 +26,15 @@ const Sidebar = ({ onVariableSubmit, triggerMapUpdate, weights, sliders, trigger
   const [submitted, setSubmitted] = useState(false)
   const [sliderTrigger, setSliderTrigger] = useState('false')
 
-  //console.log('Sliders: ', sliders)
+  //Slider Variables
+  const [expWeight, setExpWeight] = useState(1);
+  const [effWeight, setEffWeight] = useState(0.5);
+  const [sesWeight, setSesWeight] = useState(1);
+  const [popWeight, setPopWeight] = useState(1);
+  //const [selectedTract, setSelectedTract] = useState(tract);
+  const [weights, setWeights] = useState({});
+
+  //console.log('Sliders: ', weights)
 
   // Changes state of checkbox buttons on click
   function toggleButton(state) {
@@ -61,6 +69,28 @@ const Sidebar = ({ onVariableSubmit, triggerMapUpdate, weights, sliders, trigger
   const handleSesVarsChange = (key) => handleCheckboxChange(sesVars, setSesVars, key);
   const handlePopVarsChange = (key) => handleCheckboxChange(popVars, setPopVars, key);
 
+  // Weight Slider Functions
+
+  const handleExpChange = (event) => {
+    let weight = event.target.value
+    setExpWeight(weight)
+  }
+
+  const handleEffChange = (event) => {
+      let weight = event.target.value
+      setEffWeight(weight)
+  }
+
+  const handleSesChange = (event) => {
+      let weight = event.target.value
+      setSesWeight(weight)
+  }
+
+  const handlePopChange = (event) => {
+      let weight = event.target.value
+      setPopWeight(weight)
+  }
+
 
   const updateData = () => {
     let env_eff = [];
@@ -69,6 +99,15 @@ const Sidebar = ({ onVariableSubmit, triggerMapUpdate, weights, sliders, trigger
     let pop_vars = [];
     let suffix = aggMethod;
     let cmethod = calcMethod;
+    let newWeights = {
+      'exp_weight': expWeight,
+      'eff_weight': effWeight,
+      'ses_weight': sesWeight,
+      'pop_weight': popWeight
+    }
+    console.log('New WEights:', newWeights)
+    setWeights(newWeights)
+    onWeightChange(newWeights) // Might be unnecessary now
 
     document.querySelectorAll('.env_exp').forEach(factor => {
       if (factor.checked) env_exp.push(factor.value);
@@ -93,22 +132,18 @@ const Sidebar = ({ onVariableSubmit, triggerMapUpdate, weights, sliders, trigger
       "pop_vars": pop_vars,
       "suffix": suffix,
       "calc_method": cmethod,
-      'weights': weights
+      'weights': newWeights
     };
-    //console.log('BIGDATA', data)
-    //onVariableSubmit(data)
-    //setVariableData(data);
+    
     return data;
   }
 
   const sendData = async (data) => {
     //console.log('started');
     //console.log('data:', data)
-
     try {
-      const res = await axios.post('https://calenviroscreen-proj-production.up.railway.app/api/data', data);
+      const res = await axios.post('http://127.0.0.1:5000/api/data', data);
       triggerVisUpdate()
-      triggerMapUpdate()
     } catch (error) {
       console.error('Error sending data:', error);
     }
@@ -118,18 +153,21 @@ const Sidebar = ({ onVariableSubmit, triggerMapUpdate, weights, sliders, trigger
 
   const SidebarSubmit = ({onVariableSubmit}) => {
 
-    const handleClick = () => {
+    const submitData = () => {
       const data = updateData()
-      //console.log(data)
-      setVariableData(data);
       sendData(data)
-      //triggerVisUpdate()
-      //triggerMapUpdate()
+      setVariableData(data)
+    }
+
+    const submitMap = () => {
+      submitData()
+      triggerMapUpdate()
     }
 
     return (
       <div className='submit-div'>
-        <button className='submit' type='submit' onClick={handleClick}>Calculate</button>
+        <button className='submit' type='submit' onClick={submitData}>Update</button>
+        <button className='submit' type='submit' onClick={submitMap}>Calculate & Regen Map</button>
       </div>
     );
   };
@@ -210,6 +248,10 @@ const Sidebar = ({ onVariableSubmit, triggerMapUpdate, weights, sliders, trigger
             <label htmlFor="cb8" className="checkbox-label">
                 <input type='checkbox' className='env_exp' value='Traffic' id='cb8' checked={envExp.traffic} onChange={() => handleEnvExpChange('traffic')} /> Traffic
             </label>
+            <div className='slider-div'>
+              <p className='slider-label'>Category Weight: {expWeight}</p>
+              <input className='slider' type='range' min='0.5' max='2' step='0.05' value={expWeight} onChange={handleExpChange}/>
+            </div>
         </div>
         <hr />
         <div className='checkbox-group'>
@@ -229,6 +271,10 @@ const Sidebar = ({ onVariableSubmit, triggerMapUpdate, weights, sliders, trigger
             <label htmlFor="cb13" className="checkbox-label">
                 <input type='checkbox' className='env_eff' value='Solid Waste' id='cb13' checked={envEff.solidWaste} onChange={() => handleEnvEffChange('solidWaste')} /> Solid Waste Sites and Facilities
             </label>
+            <div className='slider-div'>
+                <p className='slider-label'>Category Weight: {effWeight}</p>
+                <input className='slider' type='range' min='0.25' max='1' step='0.05' value={effWeight} onChange={handleEffChange}/>
+            </div>
         </div>
         <hr />
         <div className='checkbox-group'>
@@ -248,19 +294,27 @@ const Sidebar = ({ onVariableSubmit, triggerMapUpdate, weights, sliders, trigger
             <label htmlFor="cb18" className="checkbox-label">
                 <input type='checkbox' className='ses_vars' value='Housing Burden' id='cb18' checked={sesVars.housingBurden} onChange={() => handleSesVarsChange('housingBurden')} /> Housing-Burdened Low Income Households
             </label>
+            <div className='slider-div'>
+                <p className='slider-label'>Category Weight: {sesWeight}</p>
+                <input className='slider' type='range' min='0.5' max='2' step='0.05' value={sesWeight} onChange={handleSesChange}/>                
+            </div>
         </div>
         <hr />
         <div className='checkbox-group'>
             <h3 className='checkbox-header'>CalEnviroScreen Health Factors</h3>
             <label htmlFor="cb19" className="checkbox-label">
-                <input type='checkbox' className='pop_vars' value='Asthma' id='cb19' checked={popVars.asthma} onChange={() => handlePopVarsChange('asthma')} /> Asthma-Related ER Visits
+                <input type='checkbox' className='pop_vars' value='Asthma' id='cb19' checked={popVars.asthma} onChange={() => handlePopVarsChange('asthma')} /> Asthma-Related Emergency Room Visits
             </label>
             <label htmlFor="cb20" className="checkbox-label">
                 <input type='checkbox' className='pop_vars' value='Low Birth Weight' id='cb20' checked={popVars.lowBirthWeight} onChange={() => handlePopVarsChange('lowBirthWeight')} /> Low Birth Weight
             </label>
             <label htmlFor="cb21" className="checkbox-label">
-                <input type='checkbox' className='pop_vars' value='Cardiovascular Disease' id='cb21' checked={popVars.cardiovascularDisease} onChange={() => handlePopVarsChange('cardiovascularDisease')} /> Heart Attack ER Visits
+                <input type='checkbox' className='pop_vars' value='Cardiovascular Disease' id='cb21' checked={popVars.cardiovascularDisease} onChange={() => handlePopVarsChange('cardiovascularDisease')} /> Heart Attack Emergency Room Visits
             </label>
+            <div className='slider-div'>
+                <p className='slider-label'>Category Weight: {popWeight}</p>
+                <input className='slider' type='range' min='0.5' max='2' step='0.05' value={popWeight} onChange={handlePopChange}/>                
+            </div>
         </div>
         <hr />
         <div className='checkbox-group'>
