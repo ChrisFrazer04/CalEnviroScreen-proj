@@ -78,7 +78,7 @@ const CountyBarplot = ({data}) => {
 }
 
 
-const DemographicPlot = ({yesDacData, noDacData}) => {
+const DemographicPlot1 = ({yesDacData, noDacData}) => {
     const colors = ['#48b10a', '#0a9cb1', '#730ab1', '#b1200a', '#d17b14', '#d1c914', '#142cd1', '#d11461']
     //console.log('Right Pie Data: ', yesDacData)
 
@@ -94,7 +94,6 @@ const DemographicPlot = ({yesDacData, noDacData}) => {
     }
 
     return(
-        <div className='demographic-plot-container'>
             <div className='demographic-plot-div'>
                 <p className='plot-label'>Demographics of Non-Disadvantaged Tracts</p>
                 <div className='demographic-plot'>
@@ -111,6 +110,26 @@ const DemographicPlot = ({yesDacData, noDacData}) => {
                     </ResponsiveContainer>
                 </div>
             </div>
+            
+    )
+}
+
+const DemographicPlot2 = ({yesDacData, noDacData}) => {
+    const colors = ['#48b10a', '#0a9cb1', '#730ab1', '#b1200a', '#d17b14', '#d1c914', '#142cd1', '#d11461']
+    //console.log('Right Pie Data: ', yesDacData)
+
+    const CustomTooltip = ({ payload, label, active}) => {
+        if (active && payload && payload.length) {
+            let percent = (Math.round(payload[0].value * 10000) / 100).toFixed(2)
+          return (
+            <div className="custom-tooltip">
+              <p className="tooltip-value">{`${payload[0].name}: ${percent}%`}</p>
+            </div>
+          );
+        }
+    }
+
+    return(            
             <div className='demographic-plot-div'>
                 <p className='plot-label last-label'>Demographics of Disadvantaged Tracts</p>
                 <div className='demographic-plot last-plot'>
@@ -128,16 +147,15 @@ const DemographicPlot = ({yesDacData, noDacData}) => {
                 </div>
                 
             </div>
-        </div>
     )
 }
 
-const LandingMap = ({ updateMap }) => {
+const StatePage = ({ updateMap, loadPage }) => {
     const [mapHtml, setMapHtml] = useState('');
     const [disadData, setDisadData] = useState([])
     const [nonDisadData, setNonDisadData] = useState([])
     const [countyBreakdown, setCountyBreakdown] = useState([])
-
+    console.log("Statepage Loaded: ", loadPage)
 
     useEffect(() => {
         const fetchMap = async () => {
@@ -186,17 +204,32 @@ const LandingMap = ({ updateMap }) => {
 
     return (
         <div> 
-            <div className='landing-map-div'>
+            {loadPage && (
+                <>
+                <div className='landing-map-div'>
                 <div dangerouslySetInnerHTML={{ __html: mapHtml }} className='landing-map'/>
-            </div>   
-            <div className='general-map-plots'>
-                <CountyBarplot data={countyBreakdown}/>
-                <DemographicPlot yesDacData={disadData} noDacData={nonDisadData} />
-            </div>
-            
+                </div>   
+                <div className='general-map-plots'>
+                    <CountyBarplot data={countyBreakdown}/>
+                    <DemographicPlot1 noDacData={nonDisadData}/>
+                    <DemographicPlot2 yesDacData={disadData}/>
+                </div>
+                </>
+                
+            )}
+            <div className='dashboard-box'>
+                <div className='top-row'>
+                    <div className='main-box' id='box1'></div>
+                    <div className='main-box'id='box2'></div>
+                </div>
+                <div className='bottom-row'>
+                    <div className='main-box' id='box3'></div>
+                    <div className='main-box' id='box4'></div>
+                </div>
+            </div>     
         </div>
     );
 };
 
 
-export default LandingMap;
+export default StatePage;

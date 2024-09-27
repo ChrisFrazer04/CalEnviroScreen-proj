@@ -74,12 +74,24 @@
   background: #555; /* Color of the thumb on hover */
 }
 
+/* */
+
 h3 {
   padding: 0;
   margin-bottom: 10px
 }
 
-.checkbox-group, .radio-group{
+.checkbox-header {
+  border: 2px solid black;
+  display: flex;
+}
+
+.checkbox-header:hover {
+  background-color: #888;
+  cursor: pointer;
+}
+
+.checkbox-group, .radio-group, .checkbox-content-1, .checkbox-content-2, .checkbox-content-3, .checkbox-content-4{
   display: flex;
   flex-direction: column;
   padding: 0;
@@ -87,6 +99,58 @@ h3 {
 
 .checkbox-group input {
   margin-bottom: .5em;
+}
+
+/* Checkbox/Slider Group Transitions */
+/* Entering */
+.checkbox-content-1-enter, .checkbox-content-2-enter, .checkbox-content-3-enter, .checkbox-content-4-enter {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+
+
+.checkbox-content-1-enter-active, .checkbox-content-2-enter-active, .checkbox-content-3-enter-active, .checkbox-content-4-enter-active {
+  max-height: 40vh; /* Adjust to a value that can contain the content */
+  opacity: 1;
+  transition: max-height 300ms ease-out, opacity 300ms ease-out;
+}
+
+/* Exiting */
+.checkbox-content-1-exit, .checkbox-content-2-exit, .checkbox-content-3-exit, .checkbox-content-4-exit {
+  max-height: 500px;
+  opacity: 1;
+}
+
+.checkbox-content-1-exit-active, .checkbox-content-2-exit-active, .checkbox-content-3-exit-active, .checkbox-content-4-exit-active {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 300ms ease-in, opacity 300ms ease-in;
+}
+
+.caret {
+  transition: ease 0.3s;
+}
+
+#ch-1[aria-expanded='true'] .caret {
+  transform: rotate(180deg);
+}
+
+#ch-2[aria-expanded='true'] .caret {
+  transform: rotate(180deg);
+}
+
+#ch-3[aria-expanded='true'] .caret {
+  transform: rotate(180deg);
+}
+
+#ch-4[aria-expanded='true'] .caret {
+  transform: rotate(180deg);
+}
+
+.checkbox-group input:hover, .checkbox-label {
+  cursor: pointer;
 }
 
 .radio-group{
@@ -192,7 +256,32 @@ hr {
   margin-bottom: 1vh;
 }
 
+/* Page Toggle Elements */
 
+
+#page-toggle-button {
+  border: 2px solid black;
+  width: 40%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+}
+
+#page-toggle {
+  display: none;
+}
+
+#state-button {
+  margin-right: auto;
+}
+#county-button {
+}
+
+#page-toggle-button:hover {
+  background-color: #888;
+  cursor: pointer;
+}
 
 /* Main Map and Corresponding Plot Elements */
 
@@ -249,7 +338,7 @@ hr {
   margin: 0 auto;
 }
 
-.demographic-plot-container {
+.demographic-plot-div {
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -258,7 +347,7 @@ hr {
   background-color: #f9f7f1;
 }
 
-.demographic-plot-div {
+.demgraphic-plot-div {
   width: 50%;
   height: 100%;
 }
@@ -274,6 +363,29 @@ hr {
 
 .last-plot, .last-label {
   border-left: solid black 2px
+}
+
+.dashboard-box {
+  border: 2px solid black;
+  width: 90%;
+  margin: 0 auto;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.top-row, .bottom-row {
+  height: 50%;
+  width: 100%;
+  border: 1px solid blueviolet;
+  display: flex;
+  flex-direction: row;
+}
+
+.main-box {
+  height: 100%; 
+  width: 50%;
+  border: 1px solid red;
 }
 
 /* Find your Tract Elements */
@@ -414,6 +526,10 @@ hr {
 .slider {
   width: 90%;
   margin-bottom: 5px;
+}
+
+.slider:hover {
+  cursor: pointer;
 }
 
 .slider-submit-buttons {

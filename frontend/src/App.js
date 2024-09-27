@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import WeightSliders from './components/sliders';
 import Dropdowns from './components/dropdown';
-import Profile from './components/profile';
+import CountyPage from './components/countypage';
 import Sidebar from './components/sidebar';
-import LandingMap from './components/maps';
 import ModelExplanation from './modelExplanation';
 import axios from 'axios';
 import './App.css';
+import StatePage from './components/statepage';
 
 //Backend host URL: https://calenviroscreen-proj-production.up.railway.app
 
@@ -30,6 +30,7 @@ function App() {
   const [sliderTrigger, setSliderTrigger] = useState(0)
   const [visUpdate, setVisUpdate] = useState(0)
   const [tractSelected, setTractSelected] = useState(false)
+  const [statePage, setStatePage] = useState(true)
 
   const handleTractChange = (selectedTract) => {
     setTract(selectedTract);
@@ -98,6 +99,11 @@ function App() {
     //console.log('Vis Updated')
   }
 
+  const pageToggle = () => {
+    const newState = !statePage
+    setStatePage(newState)
+  }
+
   //HTML
   return(
   <div className='body'>
@@ -105,11 +111,15 @@ function App() {
     <div className='main'>
       <Sidebar onVariableSubmit={handleVariableChange} triggerMapUpdate={handleUpdateMap} weights={weights} sliders={sliderTrigger}
       triggerVisUpdate={handleVisUpdate} triggerSliderUpdate={handleSliderUpdate} onWeightChange={handleWeightChange} tractSelected={tractSelected}/>
-    <div className="content">
+    <div className="content">      
       <ModelExplanation />
-      <LandingMap updateMap={updateMap}/>
-      <Dropdowns onCountyChange={handleCountyChange} onTractChange={handleTractChange} />
-      <Profile tract={selectedTract} onTractChange={getDefaultScore} weights={weights} updateVis={visUpdate} tractSelected={tractSelected}/>
+      <div className='page-toggle-div'>
+        <input type='checkbox' id='page-toggle' checked={statePage} onChange={pageToggle} />
+        <label for='page-toggle' id='page-toggle-button'><div id='state-button'>State-Level</div> <div id='county-button'>County-Level</div></label>
+      </div>
+      <StatePage updateMap={updateMap} loadPage={statePage}/>
+      <CountyPage loadPage={!statePage} tract={selectedTract} onTractChange={handleTractChange} weights={weights} 
+       updateVis={visUpdate} tractSelected={tractSelected} onCountyChange={handleCountyChange}/>
       <div className='footer'></div>
     </div>
     </div>

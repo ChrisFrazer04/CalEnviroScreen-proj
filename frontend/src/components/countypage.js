@@ -1,6 +1,85 @@
 import React, { useState, useEffect } from 'react';
 import { Pie, PieChart, ResponsiveContainer, Tooltip, Legend, Cell, RadialBarChart, RadialBar, PolarAngleAxis } from 'recharts'
 import axios from 'axios';
+import Dropdowns from './dropdown';
+
+
+const CountyDropdown = ( {onCountyChange} ) => {
+    const [countyOptions, setCountyOptions] = useState([])
+
+    useEffect(() => {
+        axios.get('http://127.0.0.1:5000/county_dropdown').then(response => {
+            setCountyOptions(response.data)
+            // console.log(options)
+        }).catch(error => {
+            console.error("Erorr fetching options:", error)
+        })
+    }, [])
+
+    const handleCountyChange1 = (e) => {
+        const county = e.target.value;
+        onCountyChange(county);
+    };
+
+    return(
+        <select onChange={handleCountyChange1} className='dropdown'>
+            <option value="Select County:">Select County:</option>
+            {countyOptions.map(CountyOption =>
+                <option key={CountyOption.County} value={CountyOption.County}>{CountyOption.County}</option>
+            )}
+        </select>
+    )
+}
+
+
+
+const TractDropdown = ({county, onTractChange}) => {    
+    const [tractOptions, setTractOptions] = useState([]);
+    const [mapHtml, setMapHtml] = useState('');
+
+    useEffect(() => {
+        if (county !== 'Select County:') {
+            axios.post('http://127.0.0.1:5000/api/gen_map', { county })
+                .then(response => {
+                    setMapHtml(response.data.map);
+                })
+                .catch(error => {
+                    console.error("Error fetching map:", error);
+                });
+        } else {
+            setTractOptions([]); // Reset options if 'Select County:' is selected
+        }
+    }, [county]);
+
+    useEffect(() => {
+        // Function to handle the message from the map
+        const handleMapClick = (event) => {
+          const data = JSON.parse(event.data)
+          const tract = data.tract
+          onTractChange(tract)
+          //console.log('data', data)
+          //console.log('tract', tract)
+        };
+    
+        window.addEventListener('message', handleMapClick);
+    
+        return () => {
+          window.removeEventListener('message', handleMapClick);
+        };
+      }, []);
+
+    const handleTractChange1 = (event) => {
+        const tract = event.target.value
+        onTractChange(tract)
+        // console.log('htc1', tract)
+    }
+
+    return (
+    <div className='county-map-div'>
+        <div dangerouslySetInnerHTML={{ __html: mapHtml }} className='county-map'/>
+    </div>
+    )
+}
 
 
 const GeneratePieChart = ({pieData}) => {
@@ -190,7 +269,7 @@ const GenerateCategoryRadial = ({radialData}) => {
     );
 }
 
-const Profile = ({tract, onTractChange, weights, updateVis, tractSelected}) =>  {
+const CountyPage = ({tract, loadPage, onCountyChange, onTractChange, weights, updateVis, tractSelected}) =>  {
     const [defaultPerc, setDefaultPerc] = useState(null)
     const [pieData, setPieData] = useState([])
     const [radialData, setRadialData] = useState([])
@@ -198,6 +277,7 @@ const Profile = ({tract, onTractChange, weights, updateVis, tractSelected}) =>  
     //const [tractSelected, setTractSelected] = useState(false)
     //console.log('Profile Weight', weights)
     //console.log('SELECTED TRACT:!:!:0', tractSelected)
+    console.log('County Page Loaded: ', loadPage)
 
     useEffect(() => {
         if (tract !== 'Select Tract:') {
@@ -245,24 +325,53 @@ const Profile = ({tract, onTractChange, weights, updateVis, tractSelected}) =>  
 
     return(
         <div>
-            {tractSelected && (
-            <div class='profile-container'> 
-                <div class='profile'>
-                    <div className='overall-radial-div'>
-                        <GenerateOverallRadial radialData={radialData}/>
+            <div>
+                {loadPage && (
+                    <>
+                    <div className='dashboard-box'>
+                        <div className='top-row'>
+                            <div className='main-box' id='box1'>
+                                <Dropdowns onCountyChange={onCountyChange} onTractChange={onTractChange} />
+                            </div>
+                            <div className='main-box'id='box2'>
+                                <GenerateOverallRadial radialData={radialData}/>
+                            </div>
+                        </div>
+                        <div className='bottom-row'>
+                            <div className='main-box' id='box3'>
+                                <p className='plot-label'>Category Ranks</p>
+                                <GenerateCategoryRadial radialData={radialData}/>
+                            </div>
+                            <div className='main-box' id='box4'>
+                                <GeneratePieChart  pieData={pieData}/>
+                            </div>
+                        </div>
+                    </div> 
+                    <Dropdowns onCountyChange={onCountyChange} onTractChange={onTractChange} />
+                    <div>
+                        {tractSelected && (
+                        <div class='profile-container'> 
+                            <div class='profile'>
+                                <div className='overall-radial-div'>
+                                    <GenerateOverallRadial radialData={radialData}/>
+                                </div>
+                                <div className='score-equation'>
+                                    <p className='plot-label'>Category Ranks</p>
+                                    <GenerateCategoryRadial radialData={radialData}/>
+                                </div>
+                                <div className='dual-panel'>
+                                    <GeneratePieChart  pieData={pieData}/>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                     </div>
-                    <div className='score-equation'>
-                        <p className='plot-label'>Category Ranks</p>
-                        <GenerateCategoryRadial radialData={radialData}/>
-                    </div>
-                    <div className='dual-panel'>
-                        <GeneratePieChart  pieData={pieData}/>
-                    </div>
+                    </>
+                )}
+                
             </div>
-        </div>
-        )}
         </div>
     )
 }
 
-export default Profile
+export default CountyPage
