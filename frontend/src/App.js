@@ -7,13 +7,14 @@ import ModelExplanation from './modelExplanation';
 import axios from 'axios';
 import './App.css';
 import StatePage from './components/statepage';
+import { CSSTransition, SwitchTransition } from 'react-transition-group';
 
 //Backend host URL: https://calenviroscreen-proj-production.up.railway.app
 
 function App() {
   //user-inputted variables
   const [county, setCounty] = useState('Select County:')
-  const [selectedTract, setTract] = useState('Select Tract:')
+  const [selectedTract, setTract] = useState(6037532002)
   const [defaultScore, setDefaultScore] = useState('Pending')
   const [expWeight, setExpWeight] = useState(1)
   const [effWeight, setEffWeight] = useState(0.5)
@@ -30,7 +31,9 @@ function App() {
   const [sliderTrigger, setSliderTrigger] = useState(0)
   const [visUpdate, setVisUpdate] = useState(0)
   const [tractSelected, setTractSelected] = useState(false)
-  const [statePage, setStatePage] = useState(true)
+  const [currentPage, setCurrentPage] = useState('statePage')
+  const [modelExpand, setModelExpand] = useState(false)
+  const [pageComponent, setPageComponent] = useState(<StatePage updateMap={updateMap}/>)
 
   const handleTractChange = (selectedTract) => {
     setTract(selectedTract);
@@ -100,9 +103,19 @@ function App() {
   }
 
   const pageToggle = () => {
-    const newState = !statePage
-    setStatePage(newState)
+    if (currentPage === 'statePage'){
+      //currentPage = 'countyPage'
+      setCurrentPage('countyPage')
+    } else {
+      // currentPage = 'statePage'
+      setCurrentPage('statePage')
+    }
+    console.log('Page:', currentPage)
   }
+
+  const modelToggle = () => {
+    setModelExpand(!modelExpand)
+}
 
   //HTML
   return(
@@ -111,15 +124,28 @@ function App() {
     <div className='main'>
       <Sidebar onVariableSubmit={handleVariableChange} triggerMapUpdate={handleUpdateMap} weights={weights} sliders={sliderTrigger}
       triggerVisUpdate={handleVisUpdate} triggerSliderUpdate={handleSliderUpdate} onWeightChange={handleWeightChange} tractSelected={tractSelected}/>
-    <div className="content">      
-      <ModelExplanation />
-      <div className='page-toggle-div'>
-        <input type='checkbox' id='page-toggle' checked={statePage} onChange={pageToggle} />
-        <label for='page-toggle' id='page-toggle-button'><div id='state-button'>State-Level</div> <div id='county-button'>County-Level</div></label>
+    <div className="content"> 
+      <button className='model-toggle' onClick={modelToggle} aria-expanded={modelExpand}>
+        About CalEnviroScreen <div className='caret'>▴</div></button>   
+      <CSSTransition in={modelExpand} classNames='model-explanation' timeout={300} unmountOnExit>
+        <ModelExplanation />
+      </CSSTransition>  
+      <div className='page-toggle-div' value={currentPage}>
+        <button id='page-toggle'  onClick={pageToggle}/>
+        <label for='page-toggle' id='page-toggle-button'>
+          <div id='state-button'>State-Level</div>
+          <div id='county-button'>County-Level</div>
+        </label>
       </div>
-      <StatePage updateMap={updateMap} loadPage={statePage}/>
-      <CountyPage loadPage={!statePage} tract={selectedTract} onTractChange={handleTractChange} weights={weights} 
-       updateVis={visUpdate} tractSelected={tractSelected} onCountyChange={handleCountyChange}/>
+      <SwitchTransition mode='out-in'>
+        <CSSTransition key={currentPage} timeout={300} classNames='slide' unmountOnExit>
+          {
+            currentPage === 'statePage' ? <StatePage updateMap={updateMap} /> :
+            <CountyPage tract={selectedTract} onTractChange={handleTractChange} weights={weights} 
+            updateVis={visUpdate} onCountyChange={handleCountyChange}/>
+          }
+        </CSSTransition>
+      </SwitchTransition>
       <div className='footer'></div>
     </div>
     </div>

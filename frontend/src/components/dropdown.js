@@ -4,6 +4,7 @@ import axios from 'axios';
 
 const CountyDropdown = ( {onCountyChange} ) => {
     const [countyOptions, setCountyOptions] = useState([])
+    const [selectedCounty, setSelectedCounty] = useState('Los Angeles')
 
     useEffect(() => {
         axios.get('http://127.0.0.1:5000/county_dropdown').then(response => {
@@ -17,10 +18,11 @@ const CountyDropdown = ( {onCountyChange} ) => {
     const handleCountyChange1 = (e) => {
         const county = e.target.value;
         onCountyChange(county);
+        setSelectedCounty(county)
     };
 
     return(
-        <select onChange={handleCountyChange1} className='dropdown'>
+        <select value={selectedCounty} onChange={handleCountyChange1} className='dropdown'>
             <option value="Select County:">Select County:</option>
             {countyOptions.map(CountyOption =>
                 <option key={CountyOption.County} value={CountyOption.County}>{CountyOption.County}</option>
@@ -80,7 +82,7 @@ const TractDropdown = ({county, onTractChange}) => {
 }
 
 const Dropdowns = ({onTractChange, onCountyChange}) => {
-    const [selectedCounty, setSelectedCounty] = useState('Select County:');
+    const [selectedCounty, setSelectedCounty] = useState('Los Angeles');
     const [selectedTract, setSelectedTract] = useState('Select Tract:');
 
 
@@ -91,11 +93,11 @@ const Dropdowns = ({onTractChange, onCountyChange}) => {
 
     return (
         <div className='search-area'>
-            <h3>Find your Tract!</h3>
-            <CountyDropdown onCountyChange={handleCountyChange} />
-            {selectedCounty !== 'Select County:' && (
-                <TractDropdown county={selectedCounty} onTractChange={onTractChange}/>
-            )}
+            <div className='county-dropdown-div' >
+                <h4 className='county-dropdown-label'>Select County:</h4>
+                <CountyDropdown onCountyChange={handleCountyChange} />
+            </div>
+            <TractDropdown county={selectedCounty} onTractChange={onTractChange}/>
         </div>
     );
 };

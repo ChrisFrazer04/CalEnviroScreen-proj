@@ -95,7 +95,6 @@ const DemographicPlot1 = ({yesDacData, noDacData}) => {
 
     return(
             <div className='demographic-plot-div'>
-                <p className='plot-label'>Demographics of Non-Disadvantaged Tracts</p>
                 <div className='demographic-plot'>
                     <ResponsiveContainer >
                         <PieChart>
@@ -131,7 +130,6 @@ const DemographicPlot2 = ({yesDacData, noDacData}) => {
 
     return(            
             <div className='demographic-plot-div'>
-                <p className='plot-label last-label'>Demographics of Disadvantaged Tracts</p>
                 <div className='demographic-plot last-plot'>
                     <ResponsiveContainer >
                         <PieChart >
@@ -203,30 +201,31 @@ const StatePage = ({ updateMap, loadPage }) => {
     
 
     return (
-        <div> 
-            {loadPage && (
-                <>
-                <div className='landing-map-div'>
-                <div dangerouslySetInnerHTML={{ __html: mapHtml }} className='landing-map'/>
-                </div>   
-                <div className='general-map-plots'>
-                    <CountyBarplot data={countyBreakdown}/>
-                    <DemographicPlot1 noDacData={nonDisadData}/>
-                    <DemographicPlot2 yesDacData={disadData}/>
+        <div className='slide'> 
+
+                <div className='dashboard-box' id='dashboard-box-1'>
+                    <div className='top-row'>
+                        <div className='main-box' id='box1'>
+                            <p className='plot-label'>California Census Tract Status</p>
+                            <div dangerouslySetInnerHTML={{ __html: mapHtml }} className='landing-map'/>
+                        </div>
+                        <div className='main-box'id='box2'>
+                            <CountyBarplot data={countyBreakdown}/>
+                        </div>
+                    </div>
+                    <div className='section-label'>Demographic Data</div>
+                    <div className='bottom-row'>
+                        <div className='main-box' id='box3'>
+                            <div className='plot-label'> Non-disadvantaged Tracts</div>
+                            <DemographicPlot1 noDacData={nonDisadData}/>
+                        </div>
+                        <div className='main-box' id='box4'>
+                        <div className='plot-label'> Disadvantaged Tracts</div>
+                            <DemographicPlot2 yesDacData={disadData}/>
+                        </div>
+                    </div>
                 </div>
-                </>
-                
-            )}
-            <div className='dashboard-box'>
-                <div className='top-row'>
-                    <div className='main-box' id='box1'></div>
-                    <div className='main-box'id='box2'></div>
-                </div>
-                <div className='bottom-row'>
-                    <div className='main-box' id='box3'></div>
-                    <div className='main-box' id='box4'></div>
-                </div>
-            </div>     
+
         </div>
     );
 };

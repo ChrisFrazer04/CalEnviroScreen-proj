@@ -99,7 +99,7 @@ const GeneratePieChart = ({pieData}) => {
 
     return (
         <div className='pie-chart-div'>
-            <p className='plot-label'>Category Contribution to Overall Score</p>
+            <p className='plot-label'>Category Contribution to Overall Rank</p>
             <div className='pie-chart'>
             <ResponsiveContainer >
                 <PieChart width={400} height={400}>
@@ -134,7 +134,6 @@ const GenerateOverallRadial = ({radialData}) => {
 
     return(
         <div className='overall-radial-container'>
-            <p className='plot-label'>Overall Score</p>
             <div className='overall-radial'>
                 <ResponsiveContainer >
                     <RadialBarChart 
@@ -277,7 +276,7 @@ const CountyPage = ({tract, loadPage, onCountyChange, onTractChange, weights, up
     //const [tractSelected, setTractSelected] = useState(false)
     //console.log('Profile Weight', weights)
     //console.log('SELECTED TRACT:!:!:0', tractSelected)
-    console.log('County Page Loaded: ', loadPage)
+    console.log('Tract: ', tract)
 
     useEffect(() => {
         if (tract !== 'Select Tract:') {
@@ -324,22 +323,21 @@ const CountyPage = ({tract, loadPage, onCountyChange, onTractChange, weights, up
 
 
     return(
-        <div>
+        <div className='slide'>
             <div>
-                {loadPage && (
-                    <>
-                    <div className='dashboard-box'>
+                    <div className='dashboard-box' id='dashboard-box-2'>
                         <div className='top-row'>
                             <div className='main-box' id='box1'>
                                 <Dropdowns onCountyChange={onCountyChange} onTractChange={onTractChange} />
                             </div>
                             <div className='main-box'id='box2'>
+                            `   <p className='section-label'>Tract: {tract}</p>
                                 <GenerateOverallRadial radialData={radialData}/>
                             </div>
                         </div>
                         <div className='bottom-row'>
                             <div className='main-box' id='box3'>
-                                <p className='plot-label'>Category Ranks</p>
+                                <p className='plot-label'>Category Ranks {tract}</p>
                                 <GenerateCategoryRadial radialData={radialData}/>
                             </div>
                             <div className='main-box' id='box4'>
@@ -347,28 +345,6 @@ const CountyPage = ({tract, loadPage, onCountyChange, onTractChange, weights, up
                             </div>
                         </div>
                     </div> 
-                    <Dropdowns onCountyChange={onCountyChange} onTractChange={onTractChange} />
-                    <div>
-                        {tractSelected && (
-                        <div class='profile-container'> 
-                            <div class='profile'>
-                                <div className='overall-radial-div'>
-                                    <GenerateOverallRadial radialData={radialData}/>
-                                </div>
-                                <div className='score-equation'>
-                                    <p className='plot-label'>Category Ranks</p>
-                                    <GenerateCategoryRadial radialData={radialData}/>
-                                </div>
-                                <div className='dual-panel'>
-                                    <GeneratePieChart  pieData={pieData}/>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                    </div>
-                    </>
-                )}
-                
             </div>
         </div>
     )
