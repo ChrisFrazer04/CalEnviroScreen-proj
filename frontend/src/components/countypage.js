@@ -99,7 +99,7 @@ const GeneratePieChart = ({pieData}) => {
 
     return (
         <div className='pie-chart-div'>
-            <p className='plot-label'>Category Contribution to Overall Rank</p>
+            <p className='plot-label'>Rank Breakdown</p>
             <div className='pie-chart'>
             <ResponsiveContainer >
                 <PieChart width={400} height={400}>
@@ -330,16 +330,19 @@ const CountyPage = ({tract, loadPage, onCountyChange, onTractChange, weights, up
                             <div className='main-box' id='box1'>
                                 <Dropdowns onCountyChange={onCountyChange} onTractChange={onTractChange} />
                             </div>
+                            <div className='vertical-space'></div>
                             <div className='main-box'id='box2'>
-                            `   <p className='section-label'>Tract: {tract}</p>
+                            <p className='plot-label'>Tract: {tract}</p>
                                 <GenerateOverallRadial radialData={radialData}/>
                             </div>
                         </div>
+                        <div className='horizontal-space'></div>
                         <div className='bottom-row'>
                             <div className='main-box' id='box3'>
-                                <p className='plot-label'>Category Ranks {tract}</p>
+                                <p className='plot-label'>Category Ranks</p>
                                 <GenerateCategoryRadial radialData={radialData}/>
                             </div>
+                            <div className='vertical-space'></div>
                             <div className='main-box' id='box4'>
                                 <GeneratePieChart  pieData={pieData}/>
                             </div>

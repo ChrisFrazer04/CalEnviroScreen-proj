@@ -202,30 +202,30 @@ const StatePage = ({ updateMap, loadPage }) => {
 
     return (
         <div className='slide'> 
-
                 <div className='dashboard-box' id='dashboard-box-1'>
                     <div className='top-row'>
                         <div className='main-box' id='box1'>
                             <p className='plot-label'>California Census Tract Status</p>
                             <div dangerouslySetInnerHTML={{ __html: mapHtml }} className='landing-map'/>
                         </div>
+                        <div className='vertical-space'></div>
                         <div className='main-box'id='box2'>
                             <CountyBarplot data={countyBreakdown}/>
                         </div>
                     </div>
-                    <div className='section-label'>Demographic Data</div>
+                    <div className='horizontal-space'></div>
                     <div className='bottom-row'>
                         <div className='main-box' id='box3'>
-                            <div className='plot-label'> Non-disadvantaged Tracts</div>
+                            <div className='plot-label'> Demographics: Non-disadvantaged Tracts</div>
                             <DemographicPlot1 noDacData={nonDisadData}/>
                         </div>
+                        <div className='vertical-space'></div>
                         <div className='main-box' id='box4'>
-                        <div className='plot-label'> Disadvantaged Tracts</div>
+                        <div className='plot-label'> Demographics: Disadvantaged Tracts</div>
                             <DemographicPlot2 yesDacData={disadData}/>
                         </div>
                     </div>
                 </div>
-
         </div>
     );
 };

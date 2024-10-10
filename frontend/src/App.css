@@ -196,7 +196,7 @@ hr {
   width: 80vw;
   height:93vh;
   overflow-y: auto;
-  background-color: #F5F5F5;
+  background-color: #c1d5d7;
   color: #333333;
   padding-top: 1%;
 }
@@ -235,7 +235,7 @@ hr {
 }
 
 .model-toggle {
-  display: flex;
+  display: none; /* Change to flex to show the toggle button*/
   border: 2px solid black;
 }
 
@@ -246,10 +246,10 @@ hr {
 .model-explanation {
   display: flex;
   flex-direction: column;
-  width: 92%;
+  width: 95%;
   margin: 0 auto;
-  background-color: #f9f7f1;
-  border: solid 2px black;
+  background-color: #FFFFFF;
+  border: solid 1px #FFFFFF;
   border-radius: 15px;
   padding: 2%;
   margin-bottom: 2%;
@@ -392,11 +392,45 @@ hr {
   font-weight: bold;
 }
 
-#dashboard-box-1 .section-label {
-  border-bottom: 2px dashed orange;
-  background-color: rgb(203, 200, 200);
-  margin: auto 0;
-  padding-left: 2%;
+.dashboard-box {
+  width: 95%;
+  margin: 0 auto;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  margin-top: 1%;
+  margin-bottom: 4%;
+}
+
+.vertical-space {
+  width: 3%;
+  height: 100%;
+  background-color: #c1d5d7;
+}
+
+.horizontal-space {
+  height: 4%;
+  width: 100%;
+  background-color: #c1d5d7;
+}
+
+.main-box {
+  height: 100%; 
+  width: 48.5%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #FFFFFF;
+  border-radius: 20px;
+  overflow: hidden;
+  background-color: #FFFFFF;
+  padding: .75%;
+}
+
+.top-row, .bottom-row {
+  height: 48%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
 }
 
 #dashboard-box-2 .section-label {
@@ -405,19 +439,16 @@ hr {
 
 .plot-label {
   font-weight: 600;
-  text-align: center;
+  text-align: left;
   font-size: 1rem;
+  padding-left: 1%;
 }
 
-#dashboard-box-1 .plot-label {
-  margin-top: 1%;
-}
 
 .county-barplot-div {
   width: 100%;
   height: 100%;
   margin: 0 auto;
-  background-color: #f9f7f1;
   display: flex;
   flex-direction: column;
 }
@@ -433,7 +464,6 @@ hr {
   width: 100%;
   height: 100%;
   margin: 0 auto;
-  background-color: #f9f7f1;
 }
 
 
@@ -441,44 +471,6 @@ hr {
   width: 100%;
   height: 94%;
 }
-
-
-.dashboard-box {
-  border: 5px solid rgb(203, 200, 200);
-  border-radius: 10px;
-  width: 95%;
-  margin: 0 auto;
-  height: 90vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.top-row, .bottom-row {
-  height: 50%;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-}
-
-.main-box {
-  height: 100%; 
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-}
-
-#box1 { 
-  border-right: 10px solid rgb(203, 200, 200);
-}
-
-#dashboard-box-2 #box1 {
-  border-bottom: 10px solid rgb(203, 200, 200);
-}
-
-#dashboard-box-2 #box2 {
-  border-bottom: 2px dashed rgb(203, 200, 200);
-}
-
 
 /* Find your Tract Elements */
 
@@ -493,8 +485,6 @@ hr {
 .county-dropdown-div {
   display: flex;
   flex-direction: row;
-  margin-bottom: 1%;
-  margin-top: 1%;
 }
 
 .dropdown {
@@ -514,15 +504,8 @@ hr {
 
 /*Profile Elements */
 
-.overall-radial-div {
-  width: 100%;
-  margin: 0 auto;
-  height: 33%;
-  background-color: #f9f7f1
-}
-
 .overall-radial-container {
-  height: 90%;
+  height: 100%;
   width: 100%;
 }
 
@@ -535,7 +518,6 @@ hr {
   height: 33%;
   width: 100%;
   border: 2px black solid;
-  background-color: #f9f7f1
 }
 
 .radial-charts {
@@ -547,15 +529,6 @@ hr {
 .radial-chart {
   height:100%;
   width: 25%;
-}
-
-.dual-panel {
-  height: 33%;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  background-color: #f9f7f1;
-  margin-bottom: 0;
 }
 
 .pie-chart-div {

@@ -32,7 +32,7 @@ function App() {
   const [visUpdate, setVisUpdate] = useState(0)
   const [tractSelected, setTractSelected] = useState(false)
   const [currentPage, setCurrentPage] = useState('statePage')
-  const [modelExpand, setModelExpand] = useState(false)
+  const [modelExpand, setModelExpand] = useState(true)
   const [pageComponent, setPageComponent] = useState(<StatePage updateMap={updateMap}/>)
 
   const handleTractChange = (selectedTract) => {
@@ -125,16 +125,11 @@ function App() {
       <Sidebar onVariableSubmit={handleVariableChange} triggerMapUpdate={handleUpdateMap} weights={weights} sliders={sliderTrigger}
       triggerVisUpdate={handleVisUpdate} triggerSliderUpdate={handleSliderUpdate} onWeightChange={handleWeightChange} tractSelected={tractSelected}/>
     <div className="content"> 
-      <button className='model-toggle' onClick={modelToggle} aria-expanded={modelExpand}>
-        About CalEnviroScreen <div className='caret'>▴</div></button>   
-      <CSSTransition in={modelExpand} classNames='model-explanation' timeout={300} unmountOnExit>
-        <ModelExplanation />
-      </CSSTransition>  
       <div className='page-toggle-div' value={currentPage}>
         <button id='page-toggle'  onClick={pageToggle}/>
         <label for='page-toggle' id='page-toggle-button'>
-          <div id='state-button'>State-Level</div>
-          <div id='county-button'>County-Level</div>
+          <div id='state-button'>State-View</div>
+          <div id='county-button'>County-View</div>
         </label>
       </div>
       <SwitchTransition mode='out-in'>
@@ -146,6 +141,11 @@ function App() {
           }
         </CSSTransition>
       </SwitchTransition>
+      <button className='model-toggle' onClick={modelToggle} aria-expanded={modelExpand}>
+        About CalEnviroScreen <div className='caret'>▴</div></button>   
+      <CSSTransition in={modelExpand} classNames='model-explanation' timeout={300} unmountOnExit>
+        <ModelExplanation />
+      </CSSTransition>  
       <div className='footer'></div>
     </div>
     </div>

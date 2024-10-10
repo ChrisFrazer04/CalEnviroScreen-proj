@@ -190,8 +190,7 @@ const Sidebar = ({ onVariableSubmit, triggerMapUpdate, sliders, triggerVisUpdate
 
     return (
       <div className='submit-div'>
-        <button className='submit' type='submit' onClick={submitData}>Update</button>
-        <button className='submit' type='submit' onClick={submitMap}>Calculate & Regen Map</button>
+        <button className='submit' type='submit' onClick={submitMap}>Update</button>
       </div>
     );
   };
@@ -290,7 +289,7 @@ const Sidebar = ({ onVariableSubmit, triggerMapUpdate, sliders, triggerVisUpdate
             <CSSTransition in={effExpand} timeout={300} classNames='checkbox-content-2' unmountOnExit>
               <div className='checkbox-content-2'>
                 <label htmlFor="cb9" className="checkbox-label">
-                  <input type='checkbox' className='env_eff cbox' value='Cleanup Sites' id='cb9' checked={envEff.cleanupSites} onChange={() => handleEnvEffChange('cleanupSites')} /> Cleanup Sites
+                  <input type='checkbox' className='env_eff' value='Cleanup Sites' id='cb9' checked={envEff.cleanupSites} onChange={() => handleEnvEffChange('cleanupSites')} /> Cleanup Sites
                 </label>
                 <label htmlFor="cb10" className="checkbox-label">
                     <input type='checkbox' className='env_eff cbox' value='Groundwater Threats' id='cb10' checked={envEff.groundwaterThreats} onChange={() => handleEnvEffChange('groundwaterThreats')} /> Groundwater Threats
