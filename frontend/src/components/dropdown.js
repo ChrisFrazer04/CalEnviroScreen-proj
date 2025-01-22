@@ -7,7 +7,7 @@ const CountyDropdown = ( {onCountyChange} ) => {
     const [selectedCounty, setSelectedCounty] = useState('Los Angeles')
 
     useEffect(() => {
-        axios.get('http://127.0.0.1:5000/county_dropdown').then(response => {
+        axios.get('https://calenviroscreen-proj-production.up.railway.app/county_dropdown').then(response => {
             setCountyOptions(response.data)
             // console.log(options)
         }).catch(error => {
@@ -39,7 +39,7 @@ const TractDropdown = ({county, onTractChange}) => {
 
     useEffect(() => {
         if (county !== 'Select County:') {
-            axios.post('http://127.0.0.1:5000/api/gen_map', { county })
+            axios.post('https://calenviroscreen-proj-production.up.railway.app/api/gen_map', { county })
                 .then(response => {
                     setMapHtml(response.data.map);
                 })

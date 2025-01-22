@@ -166,7 +166,7 @@ const Sidebar = ({ onVariableSubmit, triggerMapUpdate, sliders, triggerVisUpdate
     //console.log('started');
     //console.log('data:', data)
     try {
-      const res = await axios.post('http://127.0.0.1:5000/api/data', data);
+      const res = await axios.post('https://calenviroscreen-proj-production.up.railway.app/api/data', data);
       triggerVisUpdate()
     } catch (error) {
       console.error('Error sending data:', error);
