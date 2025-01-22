@@ -4,8 +4,20 @@
   border: 0;
   margin: 0; 
   box-sizing: border-box; 
-  font-family: sans-serif;
+  font-family: Tahoma, sans-serif;
   font-size: 1rem
+}
+
+:root{
+  --sidebar-color: #191924;
+  --body-color: #fff;
+  --box-color: #f5f5f5;
+  --cb-hover-color: #4c4b5f;
+  --sidebar-text-col: #f5f5f5;
+  --main-text-col: black;
+  --hr-col: #f5f5f5;
+  --scroll-col: #323148;
+  --scroll-hover: #4c4b5f;
 }
 
 .body {
@@ -15,21 +27,16 @@
 }
 
 /* Header Elements*/
-.header {
-  position: sticky;
-  top: 0;
-  right: 0;
-  width: 100%;
-  height: 7vh;
-  border: 2px solid black;
-  padding: 0.5vh 1vw;
-  background-color: #121212;  
-  color: #FFFFFF;
+.title {
 }
 
-.header-text {
+.title-text {
   text-align: left;
-  font-size: 1.75rem
+  font-size: 1.5rem;
+}
+
+.title-break{
+  margin: 2vh 0;
 }
 
 .main {
@@ -40,12 +47,12 @@
 /*!! Sidebar Elements !!*/
 .sidebar{
   border-right: 2px solid  rgba(0, 0, 0, 0.5);
-  height: 93vh;
+  height: 100vh;
   width: 20%;
   padding: 10px;
   overflow-y: auto;
-  background-color: #F0F0F0;  
-  color: #121212;
+  background-color: var(--sidebar-color);  
+  color: var(--sidebar-text-col);
   padding-top: 1%;
 }
 
@@ -53,25 +60,24 @@
 
 /* Scrollbar container */
 .sidebar::-webkit-scrollbar {
-  width: 12px; /* Width of the scrollbar */
+  width: 9px; /* Width of the scrollbar */
 }
 
 /* Scrollbar track */
 .sidebar::-webkit-scrollbar-track {
-  background: #F5F5F5; /* Color of the track */
+  background: var(--sidebar-color); /* Color of the track */
   border-radius: 10px; /* Rounded corners */
 }
 
 /* Scrollbar thumb */
 .sidebar::-webkit-scrollbar-thumb {
-  background: #888; /* Color of the thumb */
+  background: var(--scroll-col); /* Color of the thumb */
   border-radius: 10px; /* Rounded corners */
-  border: 2px solid #F5F5F5; /* Adds a border around the thumb */
 }
 
 /* Scrollbar thumb on hover */
 .sidebar::-webkit-scrollbar-thumb:hover {
-  background: #555; /* Color of the thumb on hover */
+  background: var(--scroll-hover); /* Color of the thumb on hover */
 }
 
 /* */
@@ -82,12 +88,15 @@ h3 {
 }
 
 .checkbox-header {
-  border: 2px solid black;
+  border: 1px solid var(--sidebar-color);
+  border-radius: 3%;
   display: flex;
+  background-color: var(--sidebar-color);
+  color: var(--sidebar-text-col);
 }
 
 .checkbox-header:hover {
-  background-color: #888;
+  background-color: var(--cb-hover-color);
   cursor: pointer;
 }
 
@@ -95,10 +104,6 @@ h3 {
   display: flex;
   flex-direction: column;
   padding: 0;
-}
-
-.checkbox-group input {
-  margin-bottom: .5em;
 }
 
 /* Checkbox/Slider Group Transitions */
@@ -159,11 +164,12 @@ h3 {
 }
 
 hr {
-  color: white;
-  background-color: white;
+  color: var(--hr-col);
+  background-color: var(--hr-col);
   width: 100%;
-  margin: 10px 0;
-  padding: 1.5px 0;
+  margin: 1.5vh 0;
+  border-radius: 10px;
+  padding: 0.15vh 0;
 }
 
 .final-break {
@@ -186,7 +192,7 @@ hr {
 }
 
 .submit:hover{
-  background-color: #8682A0;
+  background-color: var(--cb-hover-color);
 }
 
 /* !! Sidebar End !! */
@@ -194,10 +200,10 @@ hr {
 /* !! Main Page Content !! */
 .content{
   width: 80vw;
-  height:93vh;
+  height:100vh;
   overflow-y: auto;
-  background-color: #c1d5d7;
-  color: #333333;
+  background-color: var(--body-color);
+  color: var(--main-text-col);
   padding-top: 1%;
 }
 
@@ -240,7 +246,7 @@ hr {
 }
 
 .model-toggle:hover {
-  background-color:#8682A0;
+  background-color: var(--box-color);
 }
 
 .model-explanation {
@@ -248,8 +254,8 @@ hr {
   flex-direction: column;
   width: 95%;
   margin: 0 auto;
-  background-color: #FFFFFF;
-  border: solid 1px #FFFFFF;
+  background-color: var(--box-color);
+  border: solid 1px var(--box-color);
   border-radius: 15px;
   padding: 2%;
   margin-bottom: 2%;
@@ -320,11 +326,11 @@ hr {
 }
 
 .page-toggle-div[value='statePage'] #state-button {
-  background-color: #8682A0;
+  background-color: var(--box-color);
 }
 
 .page-toggle-div[value='countyPage'] #county-button {
-  background-color: #8682A0;
+  background-color: var(--box-color);
 }
 
 #page-toggle-button:hover {
@@ -405,13 +411,13 @@ hr {
 .vertical-space {
   width: 3%;
   height: 100%;
-  background-color: #c1d5d7;
+  background-color: var(--body-color);
 }
 
 .horizontal-space {
   height: 4%;
   width: 100%;
-  background-color: #c1d5d7;
+  background-color: var(--body-color);
 }
 
 .main-box {
@@ -419,10 +425,10 @@ hr {
   width: 48.5%;
   display: flex;
   flex-direction: column;
-  border: 1px solid #FFFFFF;
+  border: 1px solid var(--box-color);
   border-radius: 20px;
   overflow: hidden;
-  background-color: #FFFFFF;
+  background-color: var(--box-color);
   padding: .75%;
 }
 
@@ -439,9 +445,9 @@ hr {
 
 .plot-label {
   font-weight: 600;
-  text-align: left;
+  text-align: center;
   font-size: 1rem;
-  padding-left: 1%;
+  padding-left: 0;
 }
 
 
@@ -553,7 +559,7 @@ hr {
 
 .sliders {
   border: 2px black solid;
-  background-color: #f9f7f1;
+  background-color: var(--body-color);
   width: 90%;
   margin: 0 auto;
   margin-top: 1vh;
@@ -570,11 +576,11 @@ hr {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 1vh;
 }
 
 .slider {
   width: 90%;
-  margin-bottom: 5px;
 }
 
 .slider:hover {

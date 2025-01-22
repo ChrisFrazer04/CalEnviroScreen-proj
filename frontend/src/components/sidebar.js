@@ -245,6 +245,8 @@ const Sidebar = ({ onVariableSubmit, triggerMapUpdate, sliders, triggerVisUpdate
 
   return (
     <div className='sidebar'>
+      <div className='title'><h1 className='title-text'>CalEnviroVisualizer</h1></div>
+      <hr className='title-break'/>
         <div className='checkbox-group'>
             <button className='checkbox-header' id='ch-1' onClick={expToggle} aria-expanded={expExpand}>
               Environmental Exposure Factors <div className='caret'>▴</div>

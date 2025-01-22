@@ -120,11 +120,10 @@ function App() {
   //HTML
   return(
   <div className='body'>
-    <div className='header'><h1 className='header-text'>CalEnviroVisualizer</h1></div>
     <div className='main'>
       <Sidebar onVariableSubmit={handleVariableChange} triggerMapUpdate={handleUpdateMap} weights={weights} sliders={sliderTrigger}
       triggerVisUpdate={handleVisUpdate} triggerSliderUpdate={handleSliderUpdate} onWeightChange={handleWeightChange} tractSelected={tractSelected}/>
-    <div className="content"> 
+    <div className="content">
       <div className='page-toggle-div' value={currentPage}>
         <button id='page-toggle'  onClick={pageToggle}/>
         <label for='page-toggle' id='page-toggle-button'>
