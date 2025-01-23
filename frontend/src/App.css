@@ -193,7 +193,7 @@ hr {
   margin-top: 10px;
 }
 
-.submit:hover{
+#update-button:hover{
   background-color: var(--cb-hover-color);
 }
 

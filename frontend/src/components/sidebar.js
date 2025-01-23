@@ -39,6 +39,7 @@ const Sidebar = ({ onVariableSubmit, triggerMapUpdate, sliders, triggerVisUpdate
   const [effExpand, setEffExpand] = useState(true)
   const [sesExpand, setSesExpand] = useState(true)
   const [popExpand, setPopExpand] = useState(true)
+  const [loading, setLoading] = useState(false)
 
   //console.log('Sliders: ', weights)
 
@@ -189,6 +190,7 @@ const Sidebar = ({ onVariableSubmit, triggerMapUpdate, sliders, triggerVisUpdate
       await waitForDataProcessing()
       console.log('Done Waiting')
       triggerVisUpdate()
+      setLoading(false)
     } catch (error) {
       console.error('Error sending data:', error);
     }
@@ -202,6 +204,7 @@ const Sidebar = ({ onVariableSubmit, triggerMapUpdate, sliders, triggerVisUpdate
       const data = updateData()
       sendData(data)
       setVariableData(data)
+      setLoading(true)
     }
 
     const submitMap = () => {
@@ -211,7 +214,15 @@ const Sidebar = ({ onVariableSubmit, triggerMapUpdate, sliders, triggerVisUpdate
 
     return (
       <div className='submit-div'>
-        <button className='submit' type='submit' onClick={submitMap}>Update</button>
+        <button className='submit' id='update-button' type='submit' onClick={submitMap}>Update</button>
+      </div>
+    );
+  };
+
+  const SidebarLoading = ({}) => {
+    return (
+      <div className='submit-div'>
+        <button className='submit' >Updating...</button>
       </div>
     );
   };
@@ -231,7 +242,7 @@ const Sidebar = ({ onVariableSubmit, triggerMapUpdate, sliders, triggerVisUpdate
     }
   }, [sliders])
 
-
+  //Not Implemented
   const MathChangeMethods = () => {
     //Holds code for adding the aggregation and calculation method options. Currently nonfunctional. Paste after the last checkbox group
     return (
@@ -402,7 +413,10 @@ const Sidebar = ({ onVariableSubmit, triggerMapUpdate, sliders, triggerVisUpdate
             </CSSTransition>            
         </div>
         <hr className='final-break'/>
-        <SidebarSubmit />
+        {
+          loading === false ? <SidebarSubmit /> : <SidebarLoading />
+        }
+        
     </div>
 );
 
