@@ -93,6 +93,8 @@ h3 {
   display: flex;
   background-color: var(--sidebar-color);
   color: var(--sidebar-text-col);
+  margin-bottom: 0.4em;
+  font-size: 1.1em;
 }
 
 .checkbox-header:hover {

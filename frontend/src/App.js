@@ -117,6 +117,14 @@ function App() {
     setModelExpand(!modelExpand)
 }
 
+  useEffect(() => {
+    const sendLoad = async () => {
+      const response = await axios.get('http://127.0.0.1:5000/load');
+    };
+    sendLoad();
+    handleVisUpdate();
+  }, [])
+
   //HTML
   return(
   <div className='body'>
@@ -134,7 +142,7 @@ function App() {
       <SwitchTransition mode='out-in'>
         <CSSTransition key={currentPage} timeout={300} classNames='slide' unmountOnExit>
           {
-            currentPage === 'statePage' ? <StatePage updateMap={updateMap} /> :
+            currentPage === 'statePage' ? <StatePage updateMap={updateMap} updateVis={visUpdate} /> :
             <CountyPage tract={selectedTract} onTractChange={handleTractChange} weights={weights} 
             updateVis={visUpdate} onCountyChange={handleCountyChange}/>
           }

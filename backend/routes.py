@@ -28,6 +28,15 @@ old_score['score_comp'] = get_variable_impact(old_score)
 
 bp = Blueprint('main', __name__)
 
+@bp.route("/load", methods=['GET'])
+def index():
+    print('FUCKER')
+    global working_score_df
+    global working_geo_df
+    working_geo_df = 'None'
+    working_score_df = 'None'
+    return 'Done'
+
 @bp.route('/county_dropdown', methods=['GET'])
 @cross_origin()
 def send_dropdown_counties():
@@ -173,6 +182,8 @@ def dynamic_rationale():
 @cross_origin()
 def handle_data():
     data = request.json  # Get the JSON data sent from the frontend
+    global data_processed
+    data_processed = False
     print("Data received from frontend (/api/data):", data)
     env_exp_vars = data['env_exp_vars']
     env_eff_vars = data['env_eff_vars']
@@ -206,7 +217,14 @@ def handle_data():
                                                                         ).fillna('Missing')
     
     print(working_score_df.head(5))
+    data_processed = True
     return jsonify({'task': 'Output New Map'})
+
+@bp.route('/api/status', methods=['GET'])
+@cross_origin()
+def get_status():
+    if data_processed:
+        return jsonify({'status': 'complete'})
 
 @bp.route('/slider', methods=['POST'])
 @cross_origin()
