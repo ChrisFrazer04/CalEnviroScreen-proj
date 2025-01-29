@@ -227,7 +227,7 @@ const Sidebar = ({ onVariableSubmit, triggerMapUpdate, sliders,
       try {
         console.log('Waiting...')
         // GET request to check the status
-        const resp = await axios.get('http://127.0.0.1:5000/api/status');
+        const resp = await axios.get('https://calenviroscreen-proj-production.up.railway.app/api/status');
         if (resp.data.status === 'complete') {
           // Exit the loop if processing is complete
           return;
@@ -243,7 +243,7 @@ const Sidebar = ({ onVariableSubmit, triggerMapUpdate, sliders,
 
   const sendData = async (data) => {
     try {
-      const res = await axios.post('http://127.0.0.1:5000/api/data', data);
+      const res = await axios.post('https://calenviroscreen-proj-production.up.railway.app/api/data', data);
       await waitForDataProcessing()
       console.log('Done Waiting')
       triggerVisUpdate()

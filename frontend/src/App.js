@@ -119,7 +119,7 @@ function App() {
 
   useEffect(() => {
     const sendLoad = async () => {
-      const response = await axios.get('http://127.0.0.1:5000/load');
+      const response = await axios.get('https://calenviroscreen-proj-production.up.railway.app/load');
     };
     sendLoad();
     handleVisUpdate();

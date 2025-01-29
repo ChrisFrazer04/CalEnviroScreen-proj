@@ -10,7 +10,7 @@ const TractDropdown = ({county}) => {
             if (county !== 'Select County:') {
                 let data = { county: county };
                 try {
-                    const response = await axios.post('http://127.0.0.1:5000/tract_dropdown', data);
+                    const response = await axios.post('https://calenviroscreen-proj-production.up.railway.app/tract_dropdown', data);
                     setOptions(response.data);
                     console.log(response);
                 } catch (error) {

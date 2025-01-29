@@ -30,7 +30,6 @@ bp = Blueprint('main', __name__)
 
 @bp.route("/load", methods=['GET'])
 def index():
-    print('FUCKER')
     global working_score_df
     global working_geo_df
     working_geo_df = 'None'

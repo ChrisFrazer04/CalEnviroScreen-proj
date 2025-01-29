@@ -8,7 +8,7 @@ const CountyDropdown = ( {onCountyChange} ) => {
     const [countyOptions, setCountyOptions] = useState([])
 
     useEffect(() => {
-        axios.get('http://127.0.0.1:5000/county_dropdown').then(response => {
+        axios.get('https://calenviroscreen-proj-production.up.railway.app/county_dropdown').then(response => {
             setCountyOptions(response.data)
             // console.log(options)
         }).catch(error => {
@@ -39,7 +39,7 @@ const TractDropdown = ({county, onTractChange}) => {
 
     useEffect(() => {
         if (county !== 'Select County:') {
-            axios.post('http://127.0.0.1:5000/api/gen_map', { county })
+            axios.post('https://calenviroscreen-proj-production.up.railway.app/api/gen_map', { county })
                 .then(response => {
                     setMapHtml(response.data.map);
                 })
@@ -280,7 +280,7 @@ const CountyPage = ({tract, loadPage, onCountyChange, onTractChange, weights, up
 
     useEffect(() => {
         if (tract !== 'Select Tract:') {
-            axios.post('http://127.0.0.1:5000/profile/default_rationale', { tract })
+            axios.post('https://calenviroscreen-proj-production.up.railway.app/profile/default_rationale', { tract })
                 .then(response => {
                     setDefaultPerc(response.data.range)
                     setPieData(response.data.piechart)
@@ -308,7 +308,7 @@ const CountyPage = ({tract, loadPage, onCountyChange, onTractChange, weights, up
                 'weights': selectedWeights,
             }
             //console.log('Triggered', data)
-            axios.post('http://127.0.0.1:5000/profile/dynamic_rationale', { data })
+            axios.post('https://calenviroscreen-proj-production.up.railway.app/profile/dynamic_rationale', { data })
                 .then(response => {
                     setPieData(response.data.piechart)
                     setRadialData(response.data.radialchart)
