@@ -23,9 +23,7 @@ const Sidebar = ({ onVariableSubmit, triggerMapUpdate, sliders, triggerVisUpdate
 
   const [aggMethod, setAggMethod] = useState(' Pctl')
   const [calcMethod, setCalcMethod] = useState('')
-  const [variableData, setVariableData] = useState({})
-  const [submitted, setSubmitted] = useState(false)
-  const [sliderTrigger, setSliderTrigger] = useState('false')
+  
 
   //Slider Variables
   const [expWeight, setExpWeight] = useState(1);
@@ -39,6 +37,10 @@ const Sidebar = ({ onVariableSubmit, triggerMapUpdate, sliders, triggerVisUpdate
   const [effExpand, setEffExpand] = useState(true)
   const [sesExpand, setSesExpand] = useState(true)
   const [popExpand, setPopExpand] = useState(true)
+
+  const [variableData, setVariableData] = useState({})
+  const [submitted, setSubmitted] = useState(false)
+  const [sliderTrigger, setSliderTrigger] = useState('false')
   const [loading, setLoading] = useState(false)
 
   //console.log('Sliders: ', weights)
@@ -242,37 +244,7 @@ const Sidebar = ({ onVariableSubmit, triggerMapUpdate, sliders, triggerVisUpdate
     }
   }, [sliders])
 
-  //Not Implemented
-  const MathChangeMethods = () => {
-    //Holds code for adding the aggregation and calculation method options. Currently nonfunctional. Paste after the last checkbox group
-    return (
-      <div className='placeholder'>
-        <hr />
-      <div className='radio-group'>
-          <h3 className='checkbox-header'>Aggregation Method</h3>
-          <label htmlFor="cb28" className="checkbox-label">
-              <input type='radio' name='agg_method' className='agg_method' id='cb28' value=' Pctl' checked={aggMethod === ' Pctl'} onChange={handleAggChange} /> Percentile
-          </label>
-          <label htmlFor="cb29" className="checkbox-label">
-              <input type='radio' name='agg_method' className='agg_method' id='cb29' value='' checked={aggMethod === ''} onChange={handleAggChange} /> Raw Counts
-          </label>
-          <label htmlFor="cb30" className="checkbox-label">
-              <input type='radio' name='agg_method' className='agg_method' id='cb30' value=' Scaled' checked={aggMethod === ' Scaled'} onChange={handleAggChange} /> Scaled
-          </label>
-      </div>
-      <hr />
-      <div className='radio-group'>
-          <h3 className='checkbox-header'>Calculation Method</h3>
-          <label htmlFor="cb31" className="checkbox-label">
-              <input type='radio' name='calc_method' className='calc_method' id='cb31' value='' checked={calcMethod === ''} onChange={handleCalcChange} /> Default
-          </label>
-          <label htmlFor="cb32" className="checkbox-label">
-              <input type='radio' name='calc_method' className='calc_method' id='cb32' value='avg' checked={calcMethod === 'avg'} onChange={handleCalcChange} /> Average
-          </label>
-      </div>
-      </div>
-    )
-  }
+
 
 
   return (
