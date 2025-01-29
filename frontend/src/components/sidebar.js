@@ -2,34 +2,49 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { CSSTransition } from 'react-transition-group';
 
-const Sidebar = ({ onVariableSubmit, triggerMapUpdate, sliders, triggerVisUpdate, onWeightChange, triggerSliderUpdate}) => {
-  const [envExp, setEnvExp] = useState({
+const Sidebar = ({ onVariableSubmit, triggerMapUpdate, sliders, 
+  triggerVisUpdate, onWeightChange, triggerSliderUpdate}) => {
+
+  // Use localStorage to persist data
+  const loadPersistedState = (key, defaultValue) => {
+    const stored = localStorage.getItem(key);
+    return stored ? JSON.parse(stored) : defaultValue;
+  };
+
+  const saveToLocalStorage = (key, value) => {
+    localStorage.setItem(key, JSON.stringify(value));
+  };
+  const defaultEnvExp = {
     ozone: true, pm25: true, dieselP: true, drinkingWater: true, lead: true, 
     pesticides: true, toxRelease: true, traffic: true
-  });
-  const [envEff, setEnvEff] = useState({
-      cleanupSites: true, groundwaterThreats: true, hazWaste: true, impWaterBodies: true, solidWaste: true
-  });
-  const [sesVars, setSesVars] = useState({
-      education: true, linguisticIsolation: true, poverty: true, unemployment: true, housingBurden: true
-  });
-  const [popVars, setPopVars] = useState({
-      asthma: true, lowBirthWeight: true, cardiovascularDisease: true,
-      cancer: false, copd: false, smoking: false, cdc_asthma: false, ckd: false, cvd: false
-  });
-  const [cdcHealthFactors, setCdcHealthFactors] = useState({
-      cancer: false, copd: false, smoking: false, cdc_asthma: false, ckd: false, cvd: false
-  });
+  }
+  const defaultEnvEff = {
+    cleanupSites: true, groundwaterThreats: true, 
+    hazWaste: true, impWaterBodies: true, solidWaste: true
+}
+  const defaultSesVars = {
+    education: true, linguisticIsolation: true, 
+    poverty: true, unemployment: true, housingBurden: true
+}
+  const defaultPopVars = {
+    asthma: true, lowBirthWeight: true, cardiovascularDisease: true,
+    cancer: false, copd: false, smoking: false, 
+    cdc_asthma: false, ckd: false, cvd: false
+}
+  const [envExp, setEnvExp] = useState(loadPersistedState('envExp', defaultEnvExp));
+  const [envEff, setEnvEff] = useState(loadPersistedState('envEff', defaultEnvEff));
+  const [sesVars, setSesVars] = useState(loadPersistedState('sesVars', defaultSesVars));
+  const [popVars, setPopVars] = useState(loadPersistedState('popVars', defaultPopVars));
 
   const [aggMethod, setAggMethod] = useState(' Pctl')
   const [calcMethod, setCalcMethod] = useState('')
   
 
   //Slider Variables
-  const [expWeight, setExpWeight] = useState(1);
-  const [effWeight, setEffWeight] = useState(0.5);
-  const [sesWeight, setSesWeight] = useState(1);
-  const [popWeight, setPopWeight] = useState(1);
+  const [expWeight, setExpWeight] = useState(loadPersistedState('expWeight', 1));
+  const [effWeight, setEffWeight] = useState(loadPersistedState('effWeight', 0.5));
+  const [sesWeight, setSesWeight] = useState(loadPersistedState('sesWeight', 1));
+  const [popWeight, setPopWeight] = useState(loadPersistedState('popWeight', 1));
   //const [selectedTract, setSelectedTract] = useState(tract);
   const [weights, setWeights] = useState({});
 
@@ -43,7 +58,32 @@ const Sidebar = ({ onVariableSubmit, triggerMapUpdate, sliders, triggerVisUpdate
   const [sliderTrigger, setSliderTrigger] = useState('false')
   const [loading, setLoading] = useState(false)
 
+
+  // Save state changes to localStorage
+  useEffect(() => {
+    saveToLocalStorage('envExp', envExp);
+    saveToLocalStorage('envEff', envEff);
+    saveToLocalStorage('sesVars', sesVars);
+    saveToLocalStorage('popVars', popVars);
+    saveToLocalStorage('aggMethod', aggMethod);
+    saveToLocalStorage('calcMethod', calcMethod);
+    saveToLocalStorage('expWeight', expWeight);
+    saveToLocalStorage('effWeight', effWeight);
+    saveToLocalStorage('sesWeight', sesWeight);
+    saveToLocalStorage('popWeight', popWeight);
+  }, [envExp, envEff, sesVars, popVars, aggMethod, calcMethod, expWeight, effWeight, sesWeight, popWeight]);
+
   //console.log('Sliders: ', weights)
+  useEffect(() => {
+    setEnvEff(defaultEnvEff)
+    setEnvExp(defaultEnvExp)
+    setSesVars(defaultSesVars)
+    setPopVars(defaultPopVars)
+    setExpWeight(1)
+    setEffWeight(0.5)
+    setSesWeight(1)
+    setPopWeight(1)
+  }, [])
 
   // Changes state of checkbox buttons on click
   function toggleButton(state) {
@@ -132,25 +172,42 @@ const Sidebar = ({ onVariableSubmit, triggerMapUpdate, sliders, triggerVisUpdate
       'ses_weight': sesWeight,
       'pop_weight': popWeight
     }
-    console.log('New WEights:', newWeights)
+
+    const varMap = {
+      ozone: "Ozone", pm25: "PM2.5", dieselP: "Diesel PM", 
+      drinkingWater: "Drinking Water", lead: "Lead", 
+      pesticides: "Pesticides", toxRelease: "Tox. Release", traffic: "Traffic",
+      cleanupSites: "Cleanup Sites", groundwaterThreats: "Groundwater Threats", hazWaste: "Haz. Waste", 
+      impWaterBodies: "Imp. Water Bodies", solidWaste: "Solid Waste",
+      education: "Education", linguisticIsolation: "Linguistic Isolation", poverty: "Poverty", 
+      unemployment: "Unemployment", housingBurden: "Housing Burden",
+      asthma: "Asthma", lowBirthWeight: "Low Birth Weight", cardiovascularDisease: "Cardiovascular Disease", 
+      cancer: "CDC_Cancer", copd: "CDC_COPD", smoking: "CDC_Smoking", 
+      cdc_asthma: "CDC_Asthma", ckd: "CDC_CKD", cvd: "CDC_CVD"
+    }
+
     setWeights(newWeights)
     onWeightChange(newWeights) // Might be unnecessary now
 
-    document.querySelectorAll('.env_exp').forEach(factor => {
-      if (factor.checked) env_exp.push(factor.value);
-    });
+    Object.entries(envExp).map(([key, val]) => 
+      {if (val) env_exp.push(varMap[key])
+      }
+    )
 
-    document.querySelectorAll('.env_eff').forEach(factor => {
-      if (factor.checked) env_eff.push(factor.value);
-    });
+    Object.entries(envEff).map(([key, val]) => 
+      {if (val) env_eff.push(varMap[key])
+      }
+    )
 
-    document.querySelectorAll('.ses_vars').forEach(factor => {
-      if (factor.checked) ses_vars.push(factor.value);
-    });
+    Object.entries(sesVars).map(([key, val]) => 
+      {if (val) ses_vars.push(varMap[key])
+      }
+    )
 
-    document.querySelectorAll('.pop_vars').forEach(factor => {
-      if (factor.checked) pop_vars.push(factor.value);
-    });
+    Object.entries(popVars).map(([key, val]) => 
+      {if (val) pop_vars.push(varMap[key])
+      }
+    )
 
     let data = {
       "env_eff_vars": env_eff,
@@ -185,8 +242,6 @@ const Sidebar = ({ onVariableSubmit, triggerMapUpdate, sliders, triggerVisUpdate
   };
 
   const sendData = async (data) => {
-    //console.log('started');
-    //console.log('data:', data)
     try {
       const res = await axios.post('http://127.0.0.1:5000/api/data', data);
       await waitForDataProcessing()
@@ -204,6 +259,7 @@ const Sidebar = ({ onVariableSubmit, triggerMapUpdate, sliders, triggerVisUpdate
 
     const submitData = () => {
       const data = updateData()
+      console.log('Sent to backend:', data)
       sendData(data)
       setVariableData(data)
       setLoading(true)

@@ -130,7 +130,8 @@ function App() {
   <div className='body'>
     <div className='main'>
       <Sidebar onVariableSubmit={handleVariableChange} triggerMapUpdate={handleUpdateMap} weights={weights} sliders={sliderTrigger}
-      triggerVisUpdate={handleVisUpdate} triggerSliderUpdate={handleSliderUpdate} onWeightChange={handleWeightChange} tractSelected={tractSelected}/>
+      triggerVisUpdate={handleVisUpdate} triggerSliderUpdate={handleSliderUpdate}
+      onWeightChange={handleWeightChange} tractSelected={tractSelected}/>
     <div className="content">
       <div className='page-toggle-div' value={currentPage}>
         <button id='page-toggle'  onClick={pageToggle}/>
